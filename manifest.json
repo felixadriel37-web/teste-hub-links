@@ -1,0 +1,16 @@
+{
+  "id": "/",
+  "name": "Biblioteca UNIFACISA",
+  "short_name": "Biblioteca",
+  "description": "Hub de links e serviços digitais da Biblioteca UNIFACISA",
+  "lang": "pt-BR",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0037FF",
+  "theme_color": "#0037FF",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

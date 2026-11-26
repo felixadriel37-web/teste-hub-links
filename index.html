@@ -1,0 +1,1691 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Hub de Links · Biblioteca UNIFACISA</title>
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0037FF">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<!-- FONTS & ICONS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --blue:#0037FF;
+  --blue-700:#0027B8;
+  --blue-50:#EDF1FF;
+  --blue-100:#DCE3FF;
+  --green:#35E100;
+  --green-600:#2CC000;
+  --ink:#080A12;
+  --ink-2:#3B4151;
+  --muted:#858DA3;
+  --line:#E6EAF5;
+  --white:#fff;
+  --r-lg:28px;
+  --r-md:20px;
+  --r-sm:14px;
+  --shadow:0 18px 40px -18px rgba(0,55,255,.28);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Sora',system-ui,-apple-system,sans-serif;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  background:var(--white);
+  color:var(--ink);
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  padding:0 0 48px;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* CONTÊINER DINÂMICO (PAISAGEM / DESKTOP) */
+.container{
+  width:100%;
+  max-width:680px;
+  padding:14px 18px 0;
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+}
+@media(min-width: 768px) {
+  .container {
+    max-width: 760px;
+  }
+}
+
+
+/* ===== HERO ===== */
+.hero{
+  background:var(--blue);
+  border-radius:var(--r-lg);
+  padding:26px 24px 24px;
+  color:#fff;
+  position:relative;
+  overflow:hidden;
+  box-shadow:var(--shadow);
+  animation:rise .5s cubic-bezier(.2,.8,.2,1)
+}
+.hero::after{
+  content:'';
+  position:absolute;
+  width:280px;
+  height:280px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(53,225,0,.35),transparent 65%);
+  right:-110px;
+  top:-130px
+}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.hero-top{display:flex;align-items:center;justify-content:space-between;gap:12px;position:relative;z-index:1}
+.app-logo{height:40px;width:auto;max-width:190px;object-fit:contain}
+.menu-toggle-btn{
+  background:rgba(255,255,255,.14);
+  border:1px solid rgba(255,255,255,.26);
+  color:#fff;
+  width:44px;
+  height:44px;
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  font-size:1rem;
+  cursor:pointer;
+  transition:transform .2s, background .22s;
+  backdrop-filter:blur(6px);
+  flex-shrink:0
+}
+.menu-toggle-btn:hover{background:#fff;color:var(--blue);border-color:#fff;transform:scale(1.08)}
+.menu-toggle-btn:active{transform:scale(.92)}
+.eyebrow{
+  font-size:.62rem;
+  font-weight:600;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,.72);
+  margin:24px 0 10px;
+  position:relative;
+  z-index:1
+}
+.hero h1{
+  font-size: clamp(1.5rem, 4vw, 1.92rem);
+  font-weight:800;
+  line-height:1.06;
+  letter-spacing:-.035em;
+  position:relative;
+  z-index:1
+}
+.hero h1 u{text-decoration:none;border-bottom:4px solid var(--green);padding-bottom:1px}
+.hero h1 .dot{color:var(--green)}
+.hero-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px;position:relative;z-index:1}
+.chip{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  background:rgba(255,255,255,.12);
+  border:1px solid rgba(255,255,255,.22);
+  padding:7px 13px;
+  border-radius:999px;
+  font-size:.7rem;
+  font-weight:500;
+  letter-spacing:-.01em;
+  color:#fff;
+  text-decoration:none;
+  cursor:pointer;
+  transition:transform .2s, background .2s
+}
+.chip:hover{background:var(--green);border-color:var(--green);color:var(--ink);font-weight:600;transform:scale(1.06)}
+.chip:active{transform:scale(.95)}
+.chip i{font-size:.65rem}
+
+/* ===== SEARCH ===== */
+.search-container{position:relative}
+.search-icon{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:.9rem;transition:.2s}
+.search-input{
+  width:100%;
+  padding:16px 18px 16px 48px;
+  background:var(--white);
+  border:1.5px solid var(--line);
+  border-radius:var(--r-sm);
+  color:var(--ink);
+  font-size:.9rem;
+  font-weight:500;
+  letter-spacing:-.01em;
+  outline:none;
+  transition:.22s
+}
+.search-input::placeholder{color:var(--muted);font-weight:400}
+.search-input:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-50)}
+.search-container:focus-within .search-icon{color:var(--blue)}
+
+/* ===== SECTIONS ===== */
+.section-group{display:flex;flex-direction:column;gap:18px}
+.section-title{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:.62rem;
+  font-weight:600;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--muted)
+}
+.section-title::after{content:'';flex:1;height:1px;background:var(--line)}
+
+
+.app-item{
+  text-decoration:none;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  cursor:pointer;
+  user-select:none;
+  -webkit-user-select:none;
+  animation:pop .38s cubic-bezier(.2,.8,.2,1) backwards
+}
+@keyframes pop{from{opacity:0;transform:scale(.9) translateY(8px)}to{opacity:1;transform:none}}
+.app-icon{
+  width:60px;
+  height:60px;
+  border-radius:19px;
+  display:grid;
+  place-items:center;
+  font-size:1.25rem;
+  position:relative;
+  transition:transform .25s cubic-bezier(.3,1.5,.6,1),box-shadow .22s;
+  background:var(--blue);
+  color:#fff;
+  border:1.5px solid transparent
+}
+.app-item:hover .app-icon{transform:translateY(-4px) scale(1.08);box-shadow:0 14px 24px -10px rgba(0,55,255,.55)}
+.app-item:active .app-icon{transform:scale(.92)}
+.app-item[data-cat="pesquisa"] .app-icon{background:var(--ink)}
+.app-item[data-cat="pesquisa"]:hover .app-icon{box-shadow:0 14px 24px -10px rgba(8,10,18,.5)}
+.app-item[data-cat="docs"] .app-icon{background:var(--blue-50);color:var(--blue);border-color:var(--blue-100)}
+.app-item[data-cat="docs"]:hover .app-icon{background:var(--blue);color:#fff;border-color:var(--blue)}
+.app-item[data-cat="contato"] .app-icon{background:var(--green);color:var(--ink)}
+.app-item[data-cat="contato"]:hover .app-icon{box-shadow:0 14px 24px -10px rgba(53,225,0,.6)}
+.app-item[data-cat="tutoriais"] .app-icon{background:var(--blue-50);color:var(--blue);border-color:var(--blue-100)}
+.app-item[data-cat="tutoriais"]:hover .app-icon{background:var(--blue);color:#fff;border-color:var(--blue)}
+.app-text{display:flex;flex-direction:column;align-items:center;text-align:center;width:100%;max-width:96px}
+.app-title{
+  font-size:.735rem;
+  font-weight:600;
+  line-height:1.22;
+  letter-spacing:-.02em;
+  color:var(--ink);
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden
+}
+.app-subtitle{
+  font-size:.615rem;
+  font-weight:400;
+  line-height:1.2;
+  color:var(--muted);
+  margin-top:3px;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden
+}
+
+/* ===== EMPTY STATE ===== */
+.empty-state{display:none;text-align:center;padding:48px 20px;border:1.5px dashed var(--line);border-radius:var(--r-md)}
+.empty-state i{font-size:1.6rem;color:var(--blue);margin-bottom:12px;display:block}
+.empty-state strong{display:block;font-size:.92rem;letter-spacing:-.02em;margin-bottom:4px}
+.empty-state p{font-size:.8rem;color:var(--muted)}
+
+/* ===== SIDEBAR ===== */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(8,10,18,.45);backdrop-filter:blur(4px);z-index:20000;opacity:0;visibility:hidden;transition:.28s}
+.sidebar-overlay.active{opacity:1;visibility:visible}
+.sidebar{
+  position:fixed;
+  top:0;
+  right:-360px;
+  width:330px;
+  max-width:88vw;
+  height:100dvh;
+  background:#fff;
+  z-index:20001;
+  transition:right .38s cubic-bezier(.2,.9,.2,1);
+  display:flex;
+  flex-direction:column;
+  padding:26px 22px;
+  box-shadow:-20px 0 60px -20px rgba(8,10,18,.28)
+}
+.sidebar.active{right:0}
+.sidebar-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}
+.sidebar-header h3{font-size:.62rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.sidebar-close{width:38px;height:38px;border-radius:12px;background:var(--blue-50);border:none;color:var(--blue);display:grid;place-items:center;cursor:pointer;transition:transform .2s, background .2s}
+.sidebar-close:hover{background:var(--blue);color:#fff;transform:scale(1.08)}
+.sidebar-close:active{transform:scale(.92)}
+.sidebar-nav{display:flex;flex-direction:column;gap:8px}
+.sidebar-link{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:15px 16px;
+  border-radius:var(--r-sm);
+  border:1.5px solid var(--line);
+  color:var(--ink);
+  text-decoration:none;
+  font-size:.85rem;
+  font-weight:600;
+  letter-spacing:-.02em;
+  cursor:pointer;
+  transition:transform .2s, background .22s, border-color .22s
+}
+.sidebar-link:hover{border-color:var(--blue);background:var(--blue-50);color:var(--blue);transform:scale(1.02)}
+.sidebar-link:active{transform:scale(.98)}
+.sidebar-link i{color:var(--blue);width:18px;text-align:center;font-size:.95rem}
+.sidebar-foot{margin-top:auto;padding-top:20px;border-top:1px solid var(--line);font-size:.68rem;color:var(--muted);line-height:1.6}
+
+/* ===== PAGES ===== */
+.main-content.hidden,.page-content.hidden{display:none}
+.page-content{display:flex;flex-direction:column;gap:18px;animation:rise .35s cubic-bezier(.2,.8,.2,1)}
+.page-title{font-size:1.5rem;font-weight:800;letter-spacing:-.035em;line-height:1.1;color:var(--ink)}
+.page-title span{color:var(--blue)}
+.page-body{display:flex;flex-direction:column;gap:12px;font-size:.87rem;line-height:1.7;color:var(--ink-2)}
+.faq-item,.service-item{border:1.5px solid var(--line);border-radius:var(--r-md);padding:18px;transition:transform .2s, border-color .22s, box-shadow .22s;background:#fff}
+.faq-item:hover,.service-item:hover{border-color:var(--blue);box-shadow:0 14px 30px -20px rgba(0,55,255,.5);transform:scale(1.01)}
+.faq-item h4,.service-item h4{
+  font-size:.9rem;
+  font-weight:700;
+  letter-spacing:-.025em;
+  color:var(--ink);
+  margin-bottom:8px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  line-height:1.35
+}
+.faq-item h4 i,.service-item h4 i{color:var(--green-600);font-size:.72rem;margin-top:5px;flex-shrink:0}
+.faq-item p,.service-item p{margin-bottom:6px}
+.faq-item ul,.service-item ul{margin:4px 0 8px 18px}
+.faq-item li,.service-item li{margin-bottom:5px}
+.faq-item strong,.service-item strong,.page-body strong{color:var(--ink);font-weight:600}
+.btn-back-home{
+  background:var(--green);
+  color:var(--ink);
+  border:none;
+  padding:16px;
+  border-radius:999px;
+  font-weight:700;
+  font-size:.85rem;
+  letter-spacing:-.02em;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  transition:transform .22s, background .22s, box-shadow .22s;
+  text-decoration:none;
+  margin-top:6px
+}
+.btn-back-home:hover{background:var(--green-600);transform:translateY(-2px) scale(1.02);box-shadow:0 14px 26px -12px rgba(53,225,0,.8)}
+.btn-back-home:active{transform:translateY(0) scale(.98)}
+
+/* ===== MODALS (CENTRADO EM DISPOSITIVOS MÓVEIS & ZOOMS) ===== */
+.modal-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(8,10,18,.5);
+  backdrop-filter:blur(6px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:16px;
+  z-index:10000;
+  animation:fade .22s ease
+}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal-overlay.hidden{display:none}
+.modal-card{
+  background:#fff;
+  border-radius:var(--r-lg);
+  padding:24px;
+  width:100%;
+  max-width:440px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  position:relative;
+  max-height:88dvh;
+  overflow:auto;
+  animation:zoomModal .34s cubic-bezier(.2,.9,.2,1)
+}
+@keyframes zoomModal{from{transform:scale(.92);opacity:0}to{transform:scale(1);opacity:1}}
+
+.modal-close{
+  position:absolute;
+  top:18px;
+  right:18px;
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  background:var(--blue-50);
+  border:none;
+  color:var(--blue);
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  z-index:3;
+  transition:transform .2s, background .2s
+}
+.modal-close:hover{background:var(--blue);color:#fff;transform:scale(1.08)}
+.modal-close:active{transform:scale(.92)}
+.modal-image-container{width:100%;height:172px;border-radius:var(--r-md);overflow:hidden;background:var(--blue-50);border:1.5px solid var(--line)}
+.modal-img{width:100%;height:100%;object-fit:cover;display:block}
+.modal-eyebrow{font-size:.6rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.modal-body{display:flex;flex-direction:column;gap:8px;padding-right:40px}
+.modal-body h3{font-size:1.2rem;font-weight:800;letter-spacing:-.035em;line-height:1.15;color:var(--ink)}
+.modal-body p{font-size:.84rem;color:var(--ink-2);line-height:1.65}
+.modal-list{display:flex;flex-direction:column;gap:10px}
+.modal-link{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:15px;
+  border-radius:var(--r-sm);
+  background:#fff;
+  border:1.5px solid var(--line);
+  text-decoration:none;
+  color:var(--ink);
+  transition:transform .2s, background .22s, border-color .22s
+}
+.modal-link:hover{border-color:var(--blue);background:var(--blue-50);transform:scale(1.02)}
+.modal-link:active{transform:scale(.98)}
+.ml-icon{width:44px;height:44px;border-radius:13px;background:var(--blue);color:#fff;display:grid;place-items:center;flex-shrink:0;font-size:1rem;overflow:hidden}
+.ml-icon.brand{background:#fff;border:1.5px solid var(--line);padding:8px}
+.ml-text{display:flex;flex-direction:column;flex:1;min-width:0}
+.ml-title{font-size:.86rem;font-weight:700;letter-spacing:-.025em;line-height:1.25;word-break:break-word}
+.ml-sub{font-size:.7rem;color:var(--muted);line-height:1.35;margin-top:3px}
+.ml-arrow{color:var(--blue);font-size:.72rem}
+.link-button{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  background:var(--green);
+  color:var(--ink);
+  border-radius:999px;
+  padding:16px;
+  text-decoration:none;
+  font-weight:700;
+  font-size:.85rem;
+  letter-spacing:-.02em;
+  width:100%;
+  transition:transform .22s, background .22s
+}
+.link-button:hover{background:var(--green-600);transform:translateY(-2px) scale(1.02)}
+.link-button:active{transform:scale(.98)}
+
+/* ===== TUTORIAL PWA ===== */
+.platform-tabs{display:flex;gap:8px;margin:4px 0}
+.tab-btn{
+  flex:1;
+  background:#fff;
+  border:1.5px solid var(--line);
+  color:var(--muted);
+  padding:11px;
+  border-radius:999px;
+  font-size:.76rem;
+  font-weight:600;
+  letter-spacing:-.01em;
+  cursor:pointer;
+  display:flex;
+  gap:7px;
+  align-items:center;
+  justify-content:center;
+  transition:transform .2s, background .22s, border-color .22s
+}
+.tab-btn:hover{transform:scale(1.03)}
+.tab-btn:active{transform:scale(.97)}
+.tab-btn.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.tutorial-steps{display:flex;flex-direction:column;gap:10px}
+.step-item{display:flex;gap:14px;border:1.5px solid var(--line);padding:15px;border-radius:var(--r-sm)}
+.step-number{width:26px;height:26px;border-radius:9px;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+.step-text{font-size:.82rem;color:var(--ink-2);line-height:1.55}
+.step-text strong{color:var(--ink);font-weight:600}
+
+/* ===== PWA BANNER ===== */
+.pwa-banner{
+  position:fixed;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
+  width:calc(100% - 28px);
+  max-width:490px;
+  background:#fff;
+  border:1.5px solid var(--line);
+  border-radius:var(--r-md);
+  padding:18px;
+  z-index:9999;
+  box-shadow:0 26px 50px -20px rgba(8,10,18,.35)
+}
+.pwa-banner.hidden{display:none}
+.pwa-banner-content{display:flex;flex-direction:column;gap:14px}
+.pwa-banner-header{display:flex;gap:14px;align-items:center}
+.pwa-banner-header h3{font-size:.88rem;font-weight:700;letter-spacing:-.025em;color:var(--ink)}
+.pwa-banner-header p{font-size:.74rem;color:var(--muted);line-height:1.45;margin-top:2px}
+.pwa-icon{width:46px;height:46px;border-radius:14px;background:var(--blue);display:grid;place-items:center;color:#fff;font-size:1.1rem;flex-shrink:0}
+.pwa-banner-actions{display:flex;gap:9px}
+.btn-dismiss{flex:1;background:#fff;border:1.5px solid var(--line);color:var(--ink-2);padding:12px;border-radius:999px;font-size:.78rem;font-weight:600;cursor:pointer;transition:transform .2s, border-color .2s}
+.btn-dismiss:hover{border-color:var(--ink);color:var(--ink);transform:scale(1.03)}
+.btn-dismiss:active{transform:scale(.97)}
+.btn-install{flex:1.4;background:var(--green);border:none;color:var(--ink);padding:12px;border-radius:999px;font-size:.78rem;font-weight:700;cursor:pointer;display:flex;gap:7px;align-items:center;justify-content:center;transition:transform .2s, background .2s}
+.btn-install:hover{background:var(--green-600);transform:scale(1.03)}
+.btn-install:active{transform:scale(.97)}
+
+::-webkit-scrollbar{width:7px}
+::-webkit-scrollbar-thumb{background:var(--blue-100);border-radius:99px}
+::-webkit-scrollbar-thumb:hover{background:var(--blue)}
+/* ===================== v2 · NOVO LAYOUT ===================== */
+:root{--muted:#68708A;--blue-50:#EEF2FF}
+html{-webkit-text-size-adjust:100%}
+body{display:flex;flex-direction:column;padding:0;min-height:100dvh;overflow-x:hidden}
+.container{margin:0 auto;flex:1;padding:max(16px,env(safe-area-inset-top)) 16px 32px;gap:22px}
+.main-content{display:flex;flex-direction:column;gap:26px}
+:focus-visible{outline:3px solid var(--blue);outline-offset:3px;border-radius:12px}
+.hero :focus-visible{outline-color:#fff}
+button{font:inherit}
+
+/* HERO */
+.hero{padding:20px 20px 22px}
+.hero::after{display:none}
+.app-logo{height:36px}
+.eyebrow{margin:22px 0 10px}
+.hero h1{font-size:clamp(1.7rem,7.6vw,2.7rem);line-height:1.04;text-wrap:balance}
+.hero h1 u,.feature h2 u{border:0;padding:0;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px}
+.hero h1 .dot{color:#fff}
+.hero-meta{align-items:center;gap:8px;margin-top:20px}
+.chip{width:40px;height:40px;padding:0;justify-content:center;-webkit-appearance:none;appearance:none}
+.chip i{font-size:.85rem}
+.portal-btn{margin-left:auto;display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 16px;border-radius:999px;background:var(--green);color:var(--ink);font-size:.74rem;font-weight:700;letter-spacing:.01em;text-decoration:none;transition:transform .2s,background .2s}
+.portal-btn:hover{background:var(--green-600)}
+.portal-btn:active{transform:scale(.96)}
+
+/* BUSCA */
+.search-icon{left:18px}
+.search-input{font-size:16px;min-height:52px;padding:14px 48px 14px 46px;-webkit-appearance:none;appearance:none}
+.search-input::-webkit-search-cancel-button{display:none}
+.search-clear{position:absolute;right:6px;top:50%;transform:translateY(-50%);width:40px;height:40px;border:0;background:none;color:var(--muted);border-radius:12px;cursor:pointer}
+.search-clear[hidden]{display:none}
+
+/* SEÇÕES + GRADE (5 colunas, como no layout) */
+.section-group{gap:16px}
+.section-title{font-size:.78rem;letter-spacing:.2em;color:var(--ink)}
+.section-title::after{display:none}
+.app-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 4px;align-items:start}
+@media(min-width:360px){.app-grid{grid-template-columns:repeat(5,1fr)}}
+@media(min-width:768px){.app-grid{gap:26px 10px}}
+.app-item{gap:8px;padding:2px 0;border-radius:14px;touch-action:manipulation}
+.app-icon{width:56px;height:56px;border-radius:17px}
+@media(min-width:768px){.app-icon{width:64px;height:64px}}
+.app-text{max-width:100%}
+.app-title{font-size:.66rem;-webkit-line-clamp:3;hyphens:auto;overflow-wrap:break-word}
+.app-subtitle{font-size:.6rem}
+@media(min-width:480px){.app-title{font-size:.74rem}.app-subtitle{font-size:.64rem}}
+.app-item .app-icon.has-img{background:#fff;border-color:var(--line);overflow:hidden;box-shadow:0 2px 8px -3px rgba(8,10,18,.2)}
+.app-icon.has-img img{width:100%;height:100%;object-fit:cover;display:block}
+.app-icon.has-img i,.ml-icon.has-img i{display:none}
+.app-item .app-icon.has-img.fallback{background:var(--blue);color:#fff;border-color:transparent;box-shadow:none}
+.app-item[data-cat="pesquisa"] .app-icon.has-img.fallback{background:var(--ink)}
+.app-icon.has-img.fallback i,.ml-icon.has-img.fallback i{display:block}
+.ml-icon.has-img img{width:100%;height:100%;object-fit:contain}
+@media(hover:none){.app-item:hover .app-icon{transform:none;box-shadow:none}}
+
+/* SIDEBAR / BOTÕES */
+.sidebar{visibility:hidden;padding-bottom:max(26px,env(safe-area-inset-bottom));transition:right .38s cubic-bezier(.2,.9,.2,1),visibility 0s .38s}
+.sidebar.active{visibility:visible;transition:right .38s cubic-bezier(.2,.9,.2,1),visibility 0s}
+.sidebar-link{width:100%;background:#fff;text-align:left}
+
+/* VITRINE */
+.showcase{display:flex;flex-direction:column;gap:22px;margin-top:4px}
+.main-content.searching .showcase{display:none}
+.feature{margin:0;border-radius:var(--r-lg);overflow:hidden;background:var(--blue)}
+.feature img{display:block;width:100%;aspect-ratio:4/3.4;object-fit:cover;object-position:center 25%;background:var(--blue-100)}
+.feature figcaption{padding:18px 22px 24px}
+.feature h2{color:#fff;font-size:clamp(1.25rem,5.8vw,1.9rem);font-weight:800;line-height:1.12;letter-spacing:-.035em;text-wrap:balance}
+.carousel{margin:0 -16px}
+.car-track{position:relative;display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 14% 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior-x:contain}
+.car-track::-webkit-scrollbar{display:none}
+.car-slide{flex:0 0 72%;margin:0;scroll-snap-align:center;aspect-ratio:4/3;border-radius:20px;overflow:hidden;background:var(--blue-50);transform:scale(.93);opacity:.6;transition:transform .35s,opacity .35s}
+.car-slide.active{transform:none;opacity:1}
+.car-slide img{width:100%;height:100%;object-fit:cover;display:block}
+.car-dots{display:flex;justify-content:center;gap:2px}
+.car-dot{width:24px;height:24px;border:0;background:none;display:grid;place-items:center;cursor:pointer}
+.car-dot::before{content:'';width:9px;height:9px;border-radius:99px;background:var(--blue-100);transition:width .25s,background .25s}
+.car-dot[aria-current="true"]::before{width:22px;background:var(--blue)}
+.tagline{font-size:clamp(1.4rem,6.4vw,2rem);font-weight:800;letter-spacing:-.035em;line-height:1.1;text-wrap:balance}
+.stats{display:grid;grid-template-columns:1.15fr 1fr;gap:14px;background:var(--blue-50);border-radius:var(--r-md);padding:14px}
+.stats-eyebrow{font-size:.54rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-2);margin-bottom:12px}
+.stat+.stat{margin-top:16px}
+.stat strong{display:block;font-size:clamp(1.3rem,6.2vw,2.3rem);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--blue)}
+.stat span{display:block;margin-top:6px;font-size:.72rem;line-height:1.3;color:var(--blue-700)}
+.stats-photo{position:relative;margin:0;min-height:260px;border-radius:16px;overflow:hidden;background:var(--blue-100)}
+.stats-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.stats-photo figcaption{position:absolute;left:0;right:0;bottom:0;padding:28px 12px 12px;color:#fff;font-size:.66rem;line-height:1.35;background:linear-gradient(transparent,rgba(8,10,18,.78))}
+@media(max-width:340px){.stats{grid-template-columns:1fr}}
+
+/* RODAPÉ */
+.site-footer{background:var(--blue);color:#fff;padding:30px 20px calc(18px + env(safe-area-inset-bottom));margin-top:8px}
+.footer-inner{max-width:728px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.footer-claim{font-size:clamp(1.5rem,7vw,2.8rem);font-weight:800;line-height:.98;letter-spacing:-.05em;text-transform:uppercase}
+.mec-badge{display:block;width:min(42%,230px);height:auto}
+.footer-legal{max-width:728px;margin:22px auto 0;font-size:.58rem;line-height:1.5;text-align:center;color:rgba(255,255,255,.82)}
+.pwa-banner{bottom:max(16px,env(safe-area-inset-bottom))}
+
+/* ===== v3 · AVISOS, HORÁRIO, MAIS USADOS, ACESSO, FAQ SANFONA ===== */
+/* Faixa de avisos */
+.avisos-strip{border-radius:16px;border:1.5px solid var(--line);padding:12px 14px;animation:rise .4s cubic-bezier(.2,.8,.2,1)}
+.avisos-strip.hidden{display:none}
+.aviso-view{display:flex;align-items:flex-start;gap:12px;width:100%}
+.aviso-ic{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;font-size:.82rem;flex-shrink:0}
+.aviso-text{flex:1;min-width:0;font-size:.8rem;line-height:1.5;color:var(--ink-2);padding-top:2px}
+.aviso-text .aviso-tipo-label{font-weight:700}
+.aviso-text a{color:var(--blue);font-weight:600;text-decoration:none;white-space:nowrap}
+.aviso-text a i{font-size:.55rem}
+.aviso-actions{display:flex;flex-direction:column;align-items:flex-end;gap:8px;flex-shrink:0}
+.aviso-dots{display:flex;gap:2px}
+.aviso-dot{width:20px;height:20px;border:0;background:none;display:grid;place-items:center;cursor:pointer;padding:0}
+.aviso-dot::before{content:'';width:7px;height:7px;border-radius:99px;background:var(--blue-100);transition:width .25s,background .25s}
+.aviso-dot[aria-current="true"]::before{width:16px;background:var(--blue)}
+.aviso-close{width:30px;height:30px;border-radius:10px;border:0;background:transparent;color:var(--muted);display:grid;place-items:center;cursor:pointer;font-size:.78rem;transition:background .2s,color .2s}
+.aviso-close:hover{background:var(--blue-50);color:var(--blue)}
+.avisos-strip.t-info{background:var(--blue-50);border-color:var(--blue-100)}
+.avisos-strip.t-info .aviso-ic{background:var(--blue);color:#fff}
+.avisos-strip.t-info .aviso-tipo-label{color:var(--blue-700)}
+.avisos-strip.t-alerta{background:#FFF6E0;border-color:#F3E3B5}
+.avisos-strip.t-alerta .aviso-ic{background:#F59E0B;color:#fff}
+.avisos-strip.t-alerta .aviso-tipo-label{color:#9A6200}
+.avisos-strip.t-urgente{background:#FDECEC;border-color:#F5C6C6}
+.avisos-strip.t-urgente .aviso-ic{background:#D64545;color:#fff}
+.avisos-strip.t-urgente .aviso-tipo-label{color:#B32D33}
+.avisos-strip.t-feriado{background:#E9FBF0;border-color:#C9ECD6}
+.avisos-strip.t-feriado .aviso-ic{background:var(--green-600);color:#fff}
+.avisos-strip.t-feriado .aviso-tipo-label{color:#1D7A44}
+.aviso-swap{animation:avisoFade .32s ease}
+@keyframes avisoFade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+
+/* Horário no hero */
+
+/* Tipo de acesso */
+.app-item{position:relative}
+.acesso-badge{position:absolute;top:-6px;right:calc(50% - 34px);width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:.5rem;color:#fff;border:2px solid #fff;box-shadow:0 3px 8px -3px rgba(8,10,18,.4);z-index:2;cursor:help}
+@media(min-width:768px){.acesso-badge{right:calc(50% - 38px)}}
+.acesso-badge.a-institucional{background:#F59E0B}
+.acesso-badge.a-livre{background:var(--green-600)}
+.acesso-legend{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;font-size:.62rem;font-weight:500;color:var(--muted);padding:0 2px}
+.acesso-legend b{color:var(--ink-2);font-weight:700;letter-spacing:.06em;text-transform:uppercase;font-size:.58rem}
+.acesso-legend .lg{display:inline-flex;align-items:center;gap:5px}
+.acesso-legend .lg i{font-size:.62rem}
+.acesso-legend .ic-inst{color:#F59E0B}
+.acesso-legend .ic-livre{color:var(--green-600)}
+.acesso-legend .ic-pres{color:var(--ink)}
+.main-content.searching .acesso-legend{display:none}
+.main-content.searching #mostused-section{display:none!important}
+.ml-tag{display:inline-flex;align-items:center;gap:5px;font-size:.58rem;font-weight:600;letter-spacing:.01em;border-radius:99px;padding:4px 9px;width:max-content;margin-top:5px}
+.ml-tag i{font-size:.55rem}
+.ml-tag.a-institucional{background:#FFF4DC;color:#9A6200}
+.ml-tag.a-livre{background:#E9FBF0;color:#1D7A44}
+
+/* FAQ sanfona */
+.faq-item{padding:0;overflow:hidden}
+.faq-item summary{list-style:none;cursor:pointer;display:flex;align-items:flex-start;gap:10px;padding:17px 46px 17px 18px;font-size:.9rem;font-weight:700;letter-spacing:-.025em;color:var(--ink);line-height:1.35;position:relative;user-select:none;-webkit-user-select:none}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary>span{flex:1;min-width:0}
+.faq-item summary>i{color:var(--green-600);font-size:.72rem;margin-top:5px;flex-shrink:0}
+.faq-item summary::after{content:'\f078';font-family:'Font Awesome 6 Free';font-weight:900;font-size:.6rem;color:var(--muted);position:absolute;right:19px;top:21px;transition:transform .28s,color .28s}
+.faq-item[open] summary::after{transform:rotate(180deg);color:var(--blue)}
+.faq-item[open] summary{color:var(--blue)}
+.faq-item[open] summary>i{color:var(--blue)}
+.faq-a{padding:0 18px 18px;animation:faqIn .3s ease}
+.faq-a p:last-child,.faq-a ul:last-child{margin-bottom:0}
+@keyframes faqIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.faq-tools{display:flex;gap:8px;flex-wrap:wrap}
+.faq-tool-btn{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1.5px solid var(--line);color:var(--ink-2);padding:9px 14px;border-radius:999px;font-size:.7rem;font-weight:600;cursor:pointer;transition:transform .2s,border-color .2s,color .2s}
+.faq-tool-btn:hover{border-color:var(--blue);color:var(--blue);transform:scale(1.04)}
+.faq-tool-btn i{font-size:.62rem}
+
+
+#toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:.74rem;font-weight:600;z-index:21000;opacity:0;pointer-events:none;transition:opacity .3s,transform .3s;max-width:88vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(-4px)}
+
+
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+
+
+/* ===================== v4 ===================== */
+[hidden]{display:none!important}
+/* grade: 3 ícones no celular; telas maiores mostram todos */
+.app-grid{grid-template-columns:repeat(3,1fr);gap:22px 8px}
+@media(min-width:600px){.app-grid{grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:26px 12px}}
+.app-icon{width:64px;height:64px;border-radius:20px}
+@media(min-width:768px){.app-icon{width:68px;height:68px}}
+.app-title{font-size:.74rem;-webkit-line-clamp:4}
+.app-subtitle{font-size:.64rem}
+@media(min-width:480px){.app-title{font-size:.78rem}.app-subtitle{font-size:.68rem}}
+.acesso-badge{right:calc(50% - 38px)}
+@media(min-width:768px){.acesso-badge{right:calc(50% - 42px)}}
+@media(min-width:900px){
+  .container{max-width:1040px}
+  .page-content{max-width:760px;width:100%;margin:0 auto}
+  .feature img{aspect-ratio:21/9}
+  .stats{padding:22px;gap:22px}
+  .site-footer .footer-inner,.footer-legal{max-width:1040px}
+}
+/* botão "Voltar" compacto */
+.portal-btn{min-height:32px;padding:0 12px;gap:5px;font-size:.68rem}
+.portal-btn i{font-size:.7rem}
+.btn-back-home{display:inline-flex;align-self:flex-start;padding:11px 18px;font-size:.76rem;gap:7px}
+/* horário */
+.hours-row{position:relative;z-index:1;display:flex;align-items:center;gap:6px;margin-top:14px}
+.hours-status{display:inline-flex;align-items:center;gap:8px;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.92);min-width:0}
+.hs-dot{width:8px;height:8px;border-radius:50%;background:#9FB0FF;flex-shrink:0}
+.hours-status.open .hs-dot{background:var(--green);box-shadow:0 0 0 3px rgba(53,225,0,.28)}
+.hours-info{width:30px;height:30px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;display:grid;place-items:center;cursor:pointer;font-size:.78rem;flex-shrink:0;transition:background .2s}
+.hours-info:hover,.hours-info[aria-expanded="true"]{background:rgba(255,255,255,.28)}
+.hours-bell{margin-left:auto}
+.hours-pop{position:relative;z-index:1;margin-top:10px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);border-radius:14px;padding:12px 14px;font-size:.76rem;line-height:1.65;color:#fff;animation:avisoFade .25s ease}
+.hours-pop strong{display:block;font-size:.58rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;opacity:.8;margin-bottom:4px}
+/* carrossel infinito */
+.carousel{position:relative}
+.car-track{scroll-snap-stop:always}
+.car-open{display:block;width:100%;height:100%;padding:0;border:0;background:none;cursor:zoom-in}
+.car-arrow{display:none;position:absolute;top:calc(50% - 22px);width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.92);color:var(--ink);box-shadow:0 6px 18px -6px rgba(8,10,18,.4);cursor:pointer;z-index:2;place-items:center}
+.car-arrow.prev{left:14px}.car-arrow.next{right:14px}
+@media(min-width:768px){.car-arrow{display:grid}.car-slide{flex-basis:46%}.car-track{padding-inline:27%}}
+/* lightbox */
+.lightbox{position:fixed;inset:0;z-index:22000;background:rgba(8,10,18,.94);display:flex;align-items:center;justify-content:center;padding:56px 12px 48px;animation:avisoFade .25s ease}
+.lightbox.hidden{display:none}
+.lightbox img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px;touch-action:pan-y}
+.lb-btn{position:absolute;width:44px;height:44px;border:0;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:.95rem;display:grid;place-items:center;cursor:pointer}
+.lb-btn:hover{background:rgba(255,255,255,.3)}
+.lb-close{top:max(12px,env(safe-area-inset-top));right:12px}
+.lb-prev,.lb-next{top:50%;transform:translateY(-50%)}.lb-prev{left:10px}.lb-next{right:10px}
+.lb-count{position:absolute;bottom:max(16px,env(safe-area-inset-bottom));left:0;right:0;text-align:center;color:#fff;font-size:.74rem;font-weight:600;opacity:.85}
+/* modais novos */
+.opt-list{display:flex;flex-direction:column;gap:8px;margin:4px 0 12px}
+.opt{display:flex;gap:12px;align-items:center;padding:0 14px;min-height:48px;border:1.5px solid var(--line);border-radius:14px;font-size:.84rem;font-weight:600;cursor:pointer}
+.opt input{width:20px;height:20px;accent-color:var(--blue)}
+.m-status{font-size:.74rem;line-height:1.5;color:var(--ink-2);margin-bottom:10px}
+.m-status:empty{display:none}
+.mbtn{display:flex;width:100%;justify-content:center;align-items:center;min-height:48px;margin-top:8px;border-radius:999px;border:1.5px solid var(--line);background:#fff;color:var(--ink-2);font-weight:700;font-size:.82rem;cursor:pointer}
+.mbtn.primary{background:var(--blue);border-color:var(--blue);color:#fff}
+.mbtn:disabled{opacity:.55}
+.m-form label{display:block;font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:12px 0 5px}
+.m-form select,.m-form input,.m-form textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;font:inherit;font-size:16px;color:var(--ink);background:#fff;outline:none}
+.m-form textarea{min-height:96px;resize:vertical}
+.m-form select:focus,.m-form input:focus,.m-form textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-50)}
+.footer-link{display:inline-flex;align-items:center;gap:8px;margin-top:18px;background:none;border:0;color:#fff;font:inherit;font-size:.72rem;font-weight:600;text-decoration:underline;text-underline-offset:4px;cursor:pointer;opacity:.92}
+.footer-link:hover{opacity:1}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div id="sidebar-overlay" class="sidebar-overlay" onclick="closeSidebar()"></div>
+<aside id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <h3>Mais informações</h3>
+    <button class="sidebar-close" aria-label="Fechar" onclick="closeSidebar()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <nav class="sidebar-nav">
+    <button type="button" class="sidebar-link" onclick="showPage('sobre-page')"><i class="fa-solid fa-circle-info"></i><span>Sobre a Biblioteca</span></button>
+    <button type="button" class="sidebar-link" onclick="showPage('servicos-page')"><i class="fa-solid fa-bell-concierge"></i><span>Serviços Oferecidos</span></button>
+    <button type="button" class="sidebar-link" onclick="showPage('faqs-page')"><i class="fa-solid fa-circle-question"></i><span>Perguntas Frequentes FAQs</span></button>
+    
+    <button type="button" class="sidebar-link" onclick="openNotif()"><i class="fa-solid fa-bell"></i><span>Notificações de avisos</span></button><button type="button" class="sidebar-link" onclick="openFeedback()"><i class="fa-solid fa-comment-dots"></i><span>Sugerir melhoria ou relatar problema</span></button><button type="button" class="sidebar-link" onclick="openTutorialModal()"><i class="fa-solid fa-mobile-screen-button"></i><span>Como Instalar o App</span></button>
+  </nav>
+  <div class="sidebar-foot">
+    Segunda a sexta · 07h30 às 22h<br>Sábado · 08h às 13h30<br>(83) 2101-8898
+  </div>
+</aside>
+
+<div class="container">
+
+  <!-- HERO -->
+<!-- FAIXA DE AVISOS (conteúdo vem de /api/avisos, editado em colaboradores.html; fallback: avisos.json) -->
+<div id="avisos-strip" class="avisos-strip hidden" role="region" aria-label="Avisos da Biblioteca">
+  <div class="aviso-view">
+    <div class="aviso-ic"><i class="fa-solid fa-bullhorn"></i></div>
+    <div class="aviso-text" id="aviso-text" aria-live="polite"></div>
+    <div class="aviso-actions">
+      <div class="aviso-dots" id="aviso-dots" hidden></div>
+      <button type="button" class="aviso-close" id="aviso-close" aria-label="Dispensar este aviso"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+</div>
+
+
+  <header class="hero">
+    <div class="hero-top">
+      <img src="images/logo.webp" alt="Biblioteca UNIFACISA" class="app-logo">
+      <button class="menu-toggle-btn" onclick="openSidebar()" aria-label="Menu Informativo"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <p class="eyebrow">Hub de links · Biblioteca UNIFACISA</p>
+    <h1>Estudar bem começa por ter o <u>lugar certo</u><span class="dot">.</span></h1>
+    <div class="hours-row">
+      <span class="hours-status" id="hoursStatus"><span class="hs-dot"></span><span id="hoursText">Horário de atendimento</span></span>
+      <button type="button" class="hours-info" id="hoursInfoBtn" aria-expanded="false" aria-controls="hoursPop" aria-label="Ver horário de funcionamento" title="Horário de funcionamento"><i class="fa-solid fa-circle-info"></i></button>
+      <button type="button" class="hours-info hours-bell" onclick="openNotif()" aria-label="Notificações de avisos" title="Notificações de avisos"><i class="fa-solid fa-bell"></i></button>
+    </div>
+    <div class="hours-pop" id="hoursPop" role="region" aria-label="Horário de funcionamento" hidden>
+      <strong>Horário de funcionamento</strong>
+      Seg. a Sex: 07:30 - 22:00<br>Sáb.: 08:00 - 13:30
+    </div>
+    <div class="hero-meta">
+      <button type="button" class="chip" onclick="showHome()" aria-label="Página inicial" title="Página inicial"><i class="fa-solid fa-house"></i></button>
+      <button type="button" class="chip" onclick="showPage('sobre-page')" aria-label="Sobre a Biblioteca" title="Sobre a Biblioteca"><i class="fa-solid fa-circle-info"></i></button>
+      <button type="button" class="chip" onclick="showPage('faqs-page')" aria-label="Perguntas Frequentes FAQs" title="Perguntas Frequentes FAQs"><i class="fa-solid fa-circle-question"></i></button>
+      <button type="button" class="chip" onclick="showPage('servicos-page')" aria-label="Serviços Oferecidos" title="Serviços Oferecidos"><i class="fa-solid fa-bell-concierge"></i></button>
+      <button type="button" class="chip" onclick="openTutorialModal()" aria-label="Como Instalar o App" title="Como Instalar o App"><i class="fa-solid fa-download"></i></button>
+      <a href="https://unifacisa.edu.br/estrutura/bibliotecas/" target="_blank" rel="noopener noreferrer" class="portal-btn"><i class="fa-solid fa-circle-left"></i> Voltar</a>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div id="main-content" class="main-content">
+
+    <!-- SEARCH -->
+    <div class="search-container">
+      <i class="fa-solid fa-magnifying-glass search-icon" aria-hidden="true"></i>
+      <input type="search" id="searchInput" class="search-input" placeholder="Buscar serviço, base ou documento..." autocomplete="off" enterkeyhint="search" aria-label="Buscar serviço, base ou documento">
+      <button type="button" id="searchClear" class="search-clear" aria-label="Limpar busca" hidden><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+<!-- TIPO DE ACESSO (legenda dos selos) -->
+<div class="acesso-legend" aria-label="Legenda dos tipos de acesso">
+  <b>Acesso</b>
+  <span class="lg" title="Requer login institucional (alunos, professores e funcionários)"><i class="fa-solid fa-key ic-inst"></i> Login institucional</span>
+  <span class="lg" title="Abre direto, sem login"><i class="fa-solid fa-lock-open ic-livre"></i> Livre</span>
+</div>
+
+<!-- MAIS USADOS (ordenado pelos cliques do visitante; mostra sugestões até gerar histórico) -->
+<section class="section-group" id="mostused-section" style="display:none">
+  <h2 class="section-title">Mais usados</h2>
+  <div class="app-grid" id="mostused-grid"></div>
+</section>
+
+
+    <!-- SERVIÇOS -->
+    <section class="section-group" data-section>
+      <h2 class="section-title">Serviços &amp; Empréstimos</h2>
+      <div class="app-grid">
+        <a href="https://biblioteca.unifacisa.edu.br/login?redirect=%2Fmeupergamum" target="_blank" rel="noopener noreferrer" class="app-item" data-id="renovar" data-acesso="institucional" data-cat="servicos" data-search="renovação de livros meupergamum empréstimos pergamum renovar">
+          <div class="app-icon has-img"><img src="images/pergamum.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-rotate"></i></div>
+          <div class="app-text"><span class="app-title">Renovar Livros</span><span class="app-subtitle">MeuPergamum</span></div>
+        </a>
+        <a href="https://biblioteca.unifacisa.edu.br/" target="_blank" rel="noopener noreferrer" class="app-item" data-id="acervo" data-acesso="livre" data-cat="servicos" data-search="consulta ao acervo buscar livro catálogo pergamum">
+          <div class="app-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+          <div class="app-text"><span class="app-title">Consultar Acervo</span></div>
+        </a>
+        <a href="#" onclick="openAntessala('reserva-01', event)" class="app-item" data-id="reserva-01" data-acesso="livre" data-cat="servicos" data-search="reserva de salas biblioteca 01 fcm saúde arquitetura engenharia estudo em grupo">
+          <div class="app-icon"><i class="fa-solid fa-door-open"></i></div>
+          <div class="app-text"><span class="app-title">Reserva de Salas · Bib. 01</span></div>
+        </a>
+        <a href="#" onclick="openAntessala('reserva-02', event)" class="app-item" data-id="reserva-02" data-acesso="livre" data-cat="servicos" data-search="reserva de salas biblioteca 02 direito administração jogos digitais aeronáutica estudo em grupo">
+          <div class="app-icon"><i class="fa-solid fa-door-open"></i></div>
+          <div class="app-text"><span class="app-title">Reserva de Salas · Bib. 02</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- PESQUISA -->
+    <section class="section-group" data-section>
+      <h2 class="section-title">Pesquisa &amp; Acervo Digital</h2>
+      <div class="app-grid">
+        <a href="#" onclick="openGroup('bibliotecas', event)" class="app-item" data-id="bibliotecas-digitais" data-acesso="institucional" data-cat="pesquisa" data-search="biblioteca digital minha biblioteca medicina odontologia demais cursos livros e-books ebook">
+          <div class="app-icon has-img"><img src="images/mb.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-book-open"></i></div>
+          <div class="app-text"><span class="app-title">Bibliotecas Digitais</span><span class="app-subtitle">Minha Biblioteca</span></div>
+        </a>
+        <a href="https://biblioteca.unifacisa.edu.br/login?redirect=uptodate" target="_blank" rel="noopener noreferrer" class="app-item" data-id="uptodate" data-acesso="institucional" data-cat="pesquisa" data-search="uptodate evidência clínica medicina condutas">
+          <div class="app-icon has-img"><img src="images/uptodate.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-stethoscope"></i></div>
+          <div class="app-text"><span class="app-title">UpToDate</span></div>
+        </a>
+        <a href="https://www.gedweb.com.br/unifacisa/" target="_blank" rel="noopener noreferrer" class="app-item" data-id="gedweb" data-acesso="institucional" data-cat="pesquisa" data-search="target gedweb normas técnicas abnt nbr">
+          <div class="app-icon has-img"><img src="images/gedweb.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-circle-nodes"></i></div>
+          <div class="app-text"><span class="app-title">Target GedWeb</span><span class="app-subtitle">Normas Técnicas</span></div>
+        </a>
+        <a href="https://biblioteca.unifacisa.edu.br/login?redirect=rtonline" target="_blank" rel="noopener noreferrer" class="app-item" data-id="rt-online" data-acesso="institucional" data-cat="pesquisa" data-search="revista dos tribunais online rt direito jurisprudência doutrina">
+          <div class="app-icon has-img"><img src="images/rtonline.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-gavel"></i></div>
+          <div class="app-text"><span class="app-title">RT Online</span><span class="app-subtitle">Revista dos Tribunais</span></div>
+        </a>
+        <a href="https://www.periodicos.capes.gov.br/" target="_blank" rel="noopener noreferrer" class="app-item" data-id="capes" data-acesso="livre" data-cat="pesquisa" data-search="portal de periódicos capes artigos científicos pesquisa">
+          <div class="app-icon has-img"><img src="images/capes.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-graduation-cap"></i></div>
+          <div class="app-text"><span class="app-title">Periódicos CAPES</span></div>
+        </a>
+        <a href="https://www.scielo.org/pt-br/" target="_blank" rel="noopener noreferrer" class="app-item" data-id="scielo" data-acesso="livre" data-cat="pesquisa" data-search="scielo scientific electronic library online artigos acesso aberto">
+          <div class="app-icon has-img"><img src="images/scielo.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-microscope"></i></div>
+          <div class="app-text"><span class="app-title">SciELO</span></div>
+        </a>
+        <a href="http://comut.ibict.br/comut/do/index?op=filtroForm" target="_blank" rel="noopener noreferrer" class="app-item" data-id="comut" data-acesso="livre" data-cat="pesquisa" data-search="comut comutação bibliográfica ibict cópia de documentos">
+          <div class="app-icon has-img"><img src="images/comut.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-arrows-rotate"></i></div>
+          <div class="app-text"><span class="app-title">COMUT</span><span class="app-subtitle">Comutação Bibliográfica</span></div>
+        </a>
+        <a href="https://brasil.bvs.br/" target="_blank" rel="noopener noreferrer" class="app-item" data-id="bvs" data-acesso="livre" data-cat="pesquisa" data-search="bvs brasil biblioteca virtual em saúde lilacs medline">
+          <div class="app-icon has-img"><img src="images/bvs.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-heart-pulse"></i></div>
+          <div class="app-text"><span class="app-title">BVS Brasil</span><span class="app-subtitle">Biblioteca Virtual em Saúde</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- TUTORIAIS -->
+    <section class="section-group" data-section>
+      <h2 class="section-title">Tutoriais</h2>
+      <div class="app-grid">
+        <a href="https://unifacisa.edu.br/central-de-documentos/?q=uptodate" target="_blank" rel="noopener noreferrer" class="app-item" data-id="tut-uptodate" data-acesso="livre" data-cat="tutoriais" data-search="tutorial uptodate como usar ajuda">
+          <div class="app-icon has-img"><img src="images/tutoriais.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="app-text"><span class="app-title">Tutoriais UPTODATE</span></div>
+        </a>
+        <a href="https://unifacisa.edu.br/central-de-documentos/?q=tutorial" target="_blank" rel="noopener noreferrer" class="app-item" data-id="tut-biblioteca" data-acesso="livre" data-cat="tutoriais" data-search="tutoriais biblioteca acervo e cadastro">
+          <div class="app-icon has-img"><img src="images/tutoriais.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-file-pdf"></i></div>
+          <div class="app-text"><span class="app-title">Tutoriais Biblioteca</span><span class="app-subtitle">Acervo e Cadastro</span></div>
+        </a>
+        <a href="#" onclick="openGroup('treinamentos', event)" class="app-item" data-id="treinamentos" data-acesso="livre" data-cat="tutoriais" data-search="treinamentos biblioteca">
+          <div class="app-icon has-img"><img src="images/tutoriais.webp" alt="" width="64" height="64" loading="lazy" decoding="async" onerror="this.parentNode.classList.add('fallback');this.remove()"><i class="fa-solid fa-bookmark"></i></div>
+          <div class="app-text"><span class="app-title">Treinamentos da Biblioteca</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- DOCUMENTOS -->
+    <section class="section-group" data-section>
+      <h2 class="section-title">Documentos &amp; Regras</h2>
+      <div class="app-grid">
+        <a href="https://unifacisa.edu.br/wp-content/uploads/2023/10/DECLARACAO-UNIFICADA-PARA-ENTREGA-DE-TCC-NA-BIBLIOTECA.pdf" target="_blank" rel="noopener noreferrer" class="app-item" data-id="decl-tcc" data-acesso="livre" data-cat="docs" data-search="declaração unificada depósito entrega de tcc na biblioteca">
+          <div class="app-icon"><i class="fa-solid fa-file-signature"></i></div>
+          <div class="app-text"><span class="app-title">Declaração Unificada para entrega de TCC</span><span class="app-subtitle"> </span></div>
+        </a>
+        <a href="https://unifacisa.edu.br/wp-content/uploads/2026/05/Ficha-Avaliativa-TCC.pdf" target="_blank" rel="noopener noreferrer" class="app-item" data-id="ficha-tcc" data-acesso="livre" data-cat="docs" data-search="ficha de avaliação unificada de tcc matriz por competência">
+          <div class="app-icon"><i class="fa-solid fa-clipboard-check"></i></div>
+          <div class="app-text"><span class="app-title">Ficha Avaliativa</span><span class="app-subtitle">TCC por competência</span></div>
+        </a>
+        <a href="https://unifacisa.edu.br/wp-content/uploads/2023/10/ATA-DE-DEFESA-DO-TRABALHO-DE-CONCLUSAO-DO-CURSO.pdf" target="_blank" rel="noopener noreferrer" class="app-item" data-id="ata-tcc" data-acesso="livre" data-cat="docs" data-search="ata de defesa de tcc trabalho de conclusão">
+          <div class="app-icon"><i class="fa-solid fa-file-pen"></i></div>
+          <div class="app-text"><span class="app-title">Ata de Defesa de TCC</span></div>
+        </a>
+        <a href="https://unifacisa.edu.br/wp-content/uploads/2023/10/Ficha-Avaliativa-TCC-ARQUITETURA-E-URBANISMO.pdf" target="_blank" rel="noopener noreferrer" class="app-item" data-id="ficha-aru" data-acesso="livre" data-cat="docs" data-search="tcc ficha de avaliação final monografia arquitetura e urbanismo">
+          <div class="app-icon"><i class="fa-solid fa-compass-drafting"></i></div>
+          <div class="app-text"><span class="app-title">Ficha Avaliativa</span><span class="app-subtitle">Arquitetura e Urbanismo</span></div>
+        </a>
+        <a href="https://unifacisa.edu.br/wp-content/uploads/2024/06/MANUAL-DE-SERVICOS-DA-BIBLIOTECA.pdf" target="_blank" rel="noopener noreferrer" class="app-item" data-id="manual" data-acesso="livre" data-cat="docs" data-search="manual de serviços da biblioteca">
+          <div class="app-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+          <div class="app-text"><span class="app-title">Manual de Serviços</span></div>
+        </a>
+        <a href="https://unifacisa.edu.br/wp-content/uploads/2023/10/ROTEIRO-DE-MONOGRAFIAS-1-1.pdf" target="_blank" rel="noopener noreferrer" class="app-item" data-id="roteiro-mono" data-acesso="livre" data-cat="docs" data-search="tcc roteiro para monografias modelo estrutura">
+          <div class="app-icon"><i class="fa-solid fa-list-check"></i></div>
+          <div class="app-text"><span class="app-title">Roteiro para Monografias</span></div>
+        </a>
+        <a href="https://unifacisa.edu.br/wp-content/uploads/2024/06/ROTEIRO-PARA-ARTIGOS-2.pdf" target="_blank" rel="noopener noreferrer" class="app-item" data-id="roteiro-artigos" data-acesso="livre" data-cat="docs" data-search="roteiro para artigos modelo estrutura">
+          <div class="app-icon"><i class="fa-solid fa-newspaper"></i></div>
+          <div class="app-text"><span class="app-title">Roteiro para Artigos</span></div>
+        </a>
+        <a href="https://unifacisa.edu.br/wp-content/uploads/2024/06/Termo-de-Doacao.pdf" target="_blank" rel="noopener noreferrer" class="app-item" data-id="termo-doacao" data-acesso="livre" data-cat="docs" data-search="termo de doação de material livros acervo">
+          <div class="app-icon"><i class="fa-solid fa-hand-holding-heart"></i></div>
+          <div class="app-text"><span class="app-title">Termo de Doação</span><span class="app-subtitle">Doação de material</span></div>
+        </a>
+        <a href="https://unifacisa.edu.br/wp-content/uploads/2024/06/Regulamento_da_Biblioteca.pdf" target="_blank" rel="noopener noreferrer" class="app-item" data-id="regulamento" data-acesso="livre" data-cat="docs" data-search="regulamento da biblioteca regras multas">
+          <div class="app-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+          <div class="app-text"><span class="app-title">Regulamento</span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section class="section-group" data-section>
+      <h2 class="section-title">Atendimento &amp; Contato</h2>
+      <div class="app-grid">
+        <a href="#" onclick="openGroup('emails', event)" class="app-item" data-id="emails" data-acesso="livre" data-cat="contato" data-search="email e-mail biblioteca@unifacisa.edu.br tcc@unifacisa.edu.br contato suporte">
+          <div class="app-icon"><i class="fa-solid fa-envelope"></i></div>
+          <div class="app-text"><span class="app-title">E-mails</span><span class="app-subtitle"> </span></div>
+        </a>
+        <a href="tel:8321018898" class="app-item" data-id="telefone" data-acesso="livre" data-cat="contato" data-search="(83) 2101-8898 telefone ligação contato">
+          <div class="app-icon"><i class="fa-solid fa-phone"></i></div>
+          <div class="app-text"><span class="app-title">Telefone</span><span class="app-subtitle"> </span></div>
+        </a>
+      </div>
+    </section>
+
+    <!-- VITRINE -->
+    <div class="showcase" id="showcase">
+      <figure class="feature">
+        <img src="images/biblioteca-1.webp" alt="Estudante na Biblioteca Unifacisa" decoding="async">
+        <figcaption><h2>Bibliotecas Unifacisa: espaços de <u>pleno acesso ao conhecimento</u></h2></figcaption>
+      </figure>
+      <div class="carousel" role="region" aria-roledescription="carrossel" aria-label="Fotos das bibliotecas">
+        <div class="car-track" id="carTrack" tabindex="0">
+        <figure class="car-slide"><button type="button" class="car-open" aria-label="Ampliar foto"><img src="images/biblioteca-2.webp" alt="Ambiente da Biblioteca Unifacisa" loading="lazy" decoding="async"></button></figure>
+        <figure class="car-slide"><button type="button" class="car-open" aria-label="Ampliar foto"><img src="images/biblioteca-3.webp" alt="Ambiente da Biblioteca Unifacisa" loading="lazy" decoding="async"></button></figure>
+        <figure class="car-slide"><button type="button" class="car-open" aria-label="Ampliar foto"><img src="images/bibli-3.webp" alt="Ambiente da Biblioteca Unifacisa" loading="lazy" decoding="async"></button></figure>
+        <figure class="car-slide"><button type="button" class="car-open" aria-label="Ampliar foto"><img src="images/bibli-1.webp" alt="Ambiente da Biblioteca Unifacisa" loading="lazy" decoding="async"></button></figure>
+        </div>
+        <button type="button" class="car-arrow prev" aria-label="Foto anterior"><i class="fa-solid fa-chevron-left"></i></button><button type="button" class="car-arrow next" aria-label="Próxima foto"><i class="fa-solid fa-chevron-right"></i></button>
+        <div class="car-dots" id="carDots"></div>
+      </div>
+      <h2 class="tagline">O lugar onde o saber é o protagonista.</h2>
+      <section class="stats" aria-label="Números da biblioteca">
+        <div>
+          <p class="stats-eyebrow">Números da biblioteca</p>
+          <div class="stat"><strong>+ de 40 mil</strong><span>títulos entre livros, periódicos e obras de referência</span></div>
+          <div class="stat"><strong>+ de 4 mil</strong><span>livros digitais das áreas de Medicina e Odontologia</span></div>
+          <div class="stat"><strong>+ de 14 mil</strong><span>livros digitais relacionados a outras áreas do conhecimento</span></div>
+        </div>
+        <figure class="stats-photo">
+          <img src="images/bibliotecas-5.webp" alt="Corredor de estantes da Biblioteca Unifacisa" loading="lazy" decoding="async">
+          <figcaption>Dois espaços preparados para o estudo e a convivência.</figcaption>
+        </figure>
+      </section>
+    </div>
+
+
+    <div id="emptyState" class="empty-state">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <strong>Nenhum resultado</strong>
+      <p>Tente outras palavras-chave — a busca entende sinônimos (ex.: 'tcc', 'multas', 'e-mail').</p>
+    </div>
+  </div>
+
+  <!-- PÁGINAS -->
+  <div id="sobre-page" class="page-content hidden">
+    <h2 class="page-title">Sobre a <span>Biblioteca</span></h2>
+    <div class="page-body">
+      <p>As bibliotecas da Unifacisa são espaços fundamentais para o desenvolvimento acadêmico e social. Com duas unidades preparadas para o estudo e a convivência, a instituição oferece acesso a um acervo de mais de 40.000 títulos de livros físicos e digitais, complementado por periódicos e obras de referência. A gestão do acervo segue rigorosos padrões internacionais por meio da Rede Pergamum e do suporte de plataformas virtuais renomadas, como Minha Biblioteca, Target GEDWeb, Revista dos Tribunais e UpToDate. Cada obra é selecionada para apoiar de forma contínua as demandas da Graduação, Pós-Graduação e das pesquisas científicas.</p>
+      <p><strong>Aluilma Nascimento</strong> · Coordenadora</p>
+    </div>
+    <a href="#" onclick="showHome();return false" class="btn-back-home"><i class="fa-solid fa-arrow-left"></i> Retornar à Página Inicial</a>
+  </div>
+
+  <div id="servicos-page" class="page-content hidden">
+    <h2 class="page-title">Serviços <span>Oferecidos</span></h2>
+    <div class="page-body">
+      <p>O Sistema Integrado de Bibliotecas da Unifacisa oferece aos seus usuários os seguintes serviços/produtos:</p>
+      <div class="service-item"><h4><i class="fa-solid fa-check"></i> Consulta on-line a COMUT</h4><p>Através do COMUT (Serviço de Comutação Bibliográfica) o usuário pode ter obtenção de cópias de documentos técnico-científicos disponíveis nos acervos das principais bibliotecas brasileiras e em serviços de informação internacionais.</p></div>
+      <div class="service-item"><h4><i class="fa-solid fa-check"></i> Apoio em trabalhos acadêmicos</h4><p>Padronização e normalização, segundo as normas da ABNT, dos trabalhos científicos realizados pelos alunos, assim como o desenvolvimento de pesquisas acadêmicas.</p></div>
+      <div class="service-item"><h4><i class="fa-solid fa-check"></i> Serviços de referência</h4><p>Interface entre informação e usuário, tendo à frente o bibliotecário de referência, respondendo questões e auxiliando os usuários por meio de conhecimentos profissionais.</p></div>
+      <div class="service-item"><h4><i class="fa-solid fa-check"></i> Biblioteca inclusiva</h4><p>Possibilitar a inclusão de pessoas portadoras de necessidades especiais propõe o espaço Biblioteca Inclusiva com equipamentos adequados.</p></div>
+      <div class="service-item"><h4><i class="fa-solid fa-check"></i> Sumários correntes de periódicos</h4><p>Lista contendo os principais títulos de periódicos nacionais e internacionais indicados pelos docentes (de circulação interna).</p></div>
+      <div class="service-item"><h4><i class="fa-solid fa-check"></i> Elaboração de ficha catalográfica</h4><p>É a catalogação na fonte, realizada especificamente por um bibliotecário, em consonância com a NBR 14724/2011 e a AACR-2.</p></div>
+      <div class="service-item"><h4><i class="fa-solid fa-check"></i> Alerta bibliográfico</h4><p>Destina-se a informar aos leitores as mais recentes aquisições da biblioteca.</p></div>
+      <div class="service-item"><h4><i class="fa-solid fa-check"></i> Orientação para solicitar ISBN, ISSN e DOI</h4><p>Orienta na solicitação junto aos órgãos competentes.</p></div>
+    </div>
+    <a href="#" onclick="showHome();return false" class="btn-back-home"><i class="fa-solid fa-arrow-left"></i> Retornar à Página Inicial</a>
+  </div>
+
+  <div id="faqs-page" class="page-content hidden">
+    <h2 class="page-title">Perguntas <span>Frequentes</span></h2>
+    <div class="page-body">
+      <div class="faq-tools"><button type="button" class="faq-tool-btn" onclick="faqToggleAll(true)"><i class="fa-solid fa-angles-down"></i> Abrir todas</button><button type="button" class="faq-tool-btn" onclick="faqToggleAll(false)"><i class="fa-solid fa-angles-up"></i> Fechar todas</button></div>
+      <details class="faq-item" open><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Qual o horário de funcionamento e contato das bibliotecas?</span></summary><div class="faq-a"><p><strong>Biblioteca Unifacisa (todos os cursos)</strong></p><p>Segunda à sexta: 07h30 às 22h.<br>Sábado: 08h às 13h30.</p><p>Telefones: (83) 2101-8805 e (83) 2101-8898</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Como faço o meu cadastro ou recadastro na biblioteca?</span></summary><div class="faq-a"><p>O cadastro ou recadastro é realizado semestralmente com apresentação do RDM. É importante manter os dados pessoais atualizados (endereço, telefone e e-mail) para receber avisos de devolução de materiais, liberação de reservas e comprovantes de renovação.</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Quais materiais podem ser emprestados na biblioteca?</span></summary><div class="faq-a"><p>Além do material bibliográfico, a biblioteca disponibiliza Notebooks Dell, Fones de Ouvido, Mesas Digitalizadoras Wacom, Joysticks e Chaves para os armários.</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Quem pode utilizar as bibliotecas?</span></summary><div class="faq-a"><p>Alunos, professores e funcionários podem utilizar o Sistema de Bibliotecas da Unifacisa; os devidamente cadastrados poderão realizar empréstimos. A comunidade em geral poderá visitar a biblioteca após realizar cadastro e validação semestral no site (disponibilizado no início de cada semestre).</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Quais os documentos necessários para realizar o depósito de TCC?</span></summary><div class="faq-a"><ul><li>A declaração assinada pelo orientador.</li><li>A Declaração Unificada para entrega de TCC na Biblioteca.</li></ul></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>O que preciso para solicitar a ficha catalográfica do meu TCC?</span></summary><div class="faq-a"><p>Para dar entrada no pedido, você precisa preparar dois arquivos:</p><ul><li>O TCC completo em formato Word com as normas atualizadas no ano de entrega na Biblioteca.</li><li>Declaração Unificada para entrega de TCC (disponível no site da Unifacisa), devidamente preenchida e com as assinaturas do aluno e do orientador.</li></ul><p><strong>Onde e Como Enviar:</strong></p><ul><li><strong>Concluintes a partir de 2024.1:</strong> O envio deve ser feito exclusivamente pelo MEU APP UNIFACISA.</li><li><strong>Concluintes anteriores a 2024.1:</strong> A documentação deve ser enviada para o e-mail tcc@unifacisa.edu.br.</li></ul></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Qual o prazo para ter retorno do meu TCC com a ficha catalográfica?</span></summary><div class="faq-a"><p><strong>Prazo de Retorno:</strong> A biblioteca tem até 30 dias úteis para devolver o trabalho com a ficha catalográfica incluída. Esse prazo pode ser reduzido dependendo da demanda do setor.</p><p><strong>Depósito Pós-Defesa:</strong> Não há um prazo limite estipulado pela biblioteca para este depósito.</p><p><strong>Colação de Grau vs Diploma:</strong> A entrega do TCC à biblioteca não é um pré-requisito para colar grau, mas é obrigatória para o recebimento do diploma.</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Perdi ou danifiquei um livro, como proceder?</span></summary><div class="faq-a"><p>De acordo com o Regulamento, o usuário que danificar ou extraviar material é obrigado a ressarcir a biblioteca, independente da apresentação de Boletim de Ocorrência ou Atestado Médico.</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Como posso dispor do guarda-volume?</span></summary><div class="faq-a"><p>Ao guarda-volume é destinado material de estudo do aluno e este NÃO pode pernoitar.</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Posso utilizar os armários?</span></summary><div class="faq-a"><p>É facultado o uso dos armários aos alunos da instituição cadastrados na biblioteca. A forma de acesso às chaves é realizada através de empréstimo, com prazos e multas diferenciados.</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Como faço para doar materiais bibliográficos para o acervo?</span></summary><div class="faq-a"><p>Todo material doado para a biblioteca deverá passar por triagem no processo técnico para avaliar as condições e pertinência dos assuntos. O doador deverá assinar um termo de doação.</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Quantos itens podem ser emprestados e por quanto tempo?</span></summary><div class="faq-a"><p>O usuário pode dispor de três títulos ou itens, por um prazo de três dias úteis (feriados e finais de semana não contam), sem limites de renovação através da biblioteca online.</p></div></details>
+      <details class="faq-item"><summary><i class="fa-solid fa-circle-chevron-right" aria-hidden="true"></i><span>Qual o valor da multa da biblioteca?</span></summary><div class="faq-a"><p>O valor cobrado por item é de R$ 2,00 por cada dia útil. No caso do empréstimo especial, o valor será cobrado por hora. Reforçamos que alegar furto, roubo, perda ou apresentar atestado médico não isenta o usuário do pagamento de multa por atraso. Pedimos que o aluno entre em contato com a coordenação da biblioteca apenas para comunicar o ocorrido e receber orientações.</p><ul><li><strong>Obs:</strong> A multa para o atraso da devolução do notebook é de R$5,00 por hora.</li></ul></div></details>
+    </div>
+    <a href="#" onclick="showHome();return false" class="btn-back-home"><i class="fa-solid fa-arrow-left"></i> Retornar à Página Inicial</a>
+  </div>
+</div>
+
+<!-- RODAPÉ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <p class="footer-claim">Unifacisa:<br>não dá pra<br>comparar.</p>
+    <img class="mec-badge" src="images/footer-mec-badge.webp" alt="Consulte nosso credenciamento no MEC" loading="lazy" decoding="async">
+  </div>
+  <button type="button" class="footer-link" onclick="openFeedback()"><i class="fa-solid fa-comment-dots"></i> Sugerir melhoria ou relatar problema</button>
+  <p class="footer-legal">CESED - Centro de Ensino Superior e Desenvolvimento Ltda. © 2026 Todos os direitos reservados. CNPJ: 02.108.023/0001-40</p>
+</footer>
+
+<!-- MODAL GRUPO -->
+<div id="group-modal" class="modal-overlay hidden">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-close" aria-label="Fechar" onclick="closeGroup()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-body">
+      <p class="modal-eyebrow" id="group-eyebrow">Acesso rápido</p>
+      <h3 id="group-title"></h3>
+      <p id="group-desc"></p>
+    </div>
+    <div id="group-list" class="modal-list"></div>
+  </div>
+</div>
+
+<!-- MODAL ANTESSALA -->
+<div id="antessala-modal" class="modal-overlay hidden">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-close" aria-label="Fechar" onclick="closeAntessala()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-image-container"><img id="antessala-img" src="" alt="Imagem Informativa" class="modal-img"></div>
+    <div class="modal-body">
+      <p class="modal-eyebrow">Reserva de salas</p>
+      <h3 id="antessala-title"></h3>
+      <p id="antessala-desc"></p>
+    </div>
+    <a id="antessala-btn" href="#" target="_blank" rel="noopener noreferrer" class="link-button">Continuar <i class="fa-solid fa-arrow-right"></i></a>
+  </div>
+</div>
+
+<!-- MODAL TUTORIAL PWA -->
+<div id="tutorial-modal" class="modal-overlay hidden">
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-close" aria-label="Fechar" onclick="closeTutorialModal()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-body">
+      <p class="modal-eyebrow">Progressive Web App</p>
+      <h3>Instalar o Aplicativo</h3>
+      <p>Instale nosso Hub na tela inicial do seu dispositivo para acessar de forma fácil e rápida.</p>
+    </div>
+    <div class="platform-tabs">
+      <button id="tab-android" class="tab-btn active" onclick="switchPlatform('android')"><i class="fa-brands fa-android"></i> Android</button>
+      <button id="tab-ios" class="tab-btn" onclick="switchPlatform('ios')"><i class="fa-brands fa-apple"></i> iPhone</button>
+    </div>
+    <div id="steps-android" class="tutorial-steps">
+      <div class="step-item"><div class="step-number">1</div><div class="step-text">Toque no ícone de <strong>três pontos</strong> no canto superior direito do navegador.</div></div>
+      <div class="step-item"><div class="step-number">2</div><div class="step-text">Selecione <strong>"Instalar página como aplicativo"</strong> ou <strong>"Adicionar à tela inicial"</strong>.</div></div>
+      <div class="step-item"><div class="step-number">3</div><div class="step-text">Confirme a instalação clicando em <strong>"Instalar"</strong>.</div></div>
+    </div>
+    <div id="steps-ios" class="tutorial-steps" style="display:none">
+      <div class="step-item"><div class="step-number">1</div><div class="step-text">Toque no botão de <strong>Compartilhar</strong> na barra inferior do Safari.</div></div>
+      <div class="step-item"><div class="step-number">2</div><div class="step-text">Role a lista para baixo e selecione <strong>"Adicionar à Tela de Início"</strong>.</div></div>
+      <div class="step-item"><div class="step-number">3</div><div class="step-text">Toque em <strong>"Adicionar"</strong> no canto superior direito.</div></div>
+    </div>
+    <button onclick="closeTutorialModal()" class="btn-back-home" style="margin-top:2px">Entendi</button>
+  </div>
+</div>
+
+<!-- PWA BANNER -->
+<div id="pwa-banner" class="pwa-banner hidden">
+  <div class="pwa-banner-content">
+    <div class="pwa-banner-header">
+      <div class="pwa-icon"><i class="fa-solid fa-book-bookmark"></i></div>
+      <div><h3>Instale o App da Biblioteca</h3><p>Acesse o Hub de Links direto da sua tela inicial.</p></div>
+    </div>
+    <div class="pwa-banner-actions">
+      <button class="btn-dismiss" onclick="dismissPWABanner()">Agora não</button>
+      <button class="btn-install" onclick="handleInstallClick()"><i class="fa-solid fa-download"></i> Instalar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL NOTIFICAÇÕES -->
+<div id="notif-modal" class="modal-overlay hidden">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="notif-title">
+    <button class="modal-close" aria-label="Fechar" onclick="closeNotif()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-body">
+      <p class="modal-eyebrow">Avisos da biblioteca</p>
+      <h3 id="notif-title">Notificações</h3>
+      <p>Receba no celular avisos sobre feriados, horário especial, sistema fora do ar e prazo de TCC.</p>
+    </div>
+    <div class="opt-list" id="notif-opts">
+      <label class="opt"><input type="checkbox" value="feriado" checked> Feriados</label>
+      <label class="opt"><input type="checkbox" value="horario" checked> Horário especial</label>
+      <label class="opt"><input type="checkbox" value="sistema" checked> Sistema fora do ar</label>
+      <label class="opt"><input type="checkbox" value="tcc" checked> Prazo de TCC</label>
+      <label class="opt"><input type="checkbox" value="geral" checked> Outros comunicados</label>
+    </div>
+    <p id="notif-status" class="m-status" role="status"></p>
+    <button id="notif-save" class="mbtn primary" type="button" onclick="saveNotif()">Ativar notificações</button>
+    <button id="notif-off" class="mbtn" type="button" onclick="offNotif()" hidden>Desativar notificações</button>
+  </div>
+</div>
+
+<!-- MODAL FEEDBACK -->
+<div id="feedback-modal" class="modal-overlay hidden">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="fb-title">
+    <button class="modal-close" aria-label="Fechar" onclick="closeFeedback()"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modal-body">
+      <p class="modal-eyebrow">Fale com a gente</p>
+      <h3 id="fb-title">Sugerir melhoria ou relatar problema</h3>
+    </div>
+    <form onsubmit="sendFeedback(event);return false" class="m-form">
+      <label for="fbKind">Tipo</label>
+      <select id="fbKind" name="kind"><option>Sugestão</option><option>Problema</option><option>Elogio</option></select>
+      <label for="fbMsg">Mensagem</label>
+      <textarea id="fbMsg" name="message" required minlength="5" maxlength="1000" placeholder="Conte o que podemos melhorar…"></textarea>
+      <label for="fbContact">E-mail ou telefone (opcional)</label>
+      <input id="fbContact" name="contact" maxlength="120" autocomplete="off">
+      <input name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px">
+      <button type="submit" class="mbtn primary">Enviar</button>
+    </form>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox hidden" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button type="button" class="lb-btn lb-close" aria-label="Fechar"><i class="fa-solid fa-xmark"></i></button>
+  <button type="button" class="lb-btn lb-prev" aria-label="Foto anterior"><i class="fa-solid fa-chevron-left"></i></button>
+  <img id="lbImg" alt="Foto da Biblioteca Unifacisa">
+  <button type="button" class="lb-btn lb-next" aria-label="Próxima foto"><i class="fa-solid fa-chevron-right"></i></button>
+  <p id="lbCount" class="lb-count"></p>
+</div>
+
+<div id="toast" role="status"></div>
+
+
+<script>
+/* ===== NAVEGAÇÃO ===== */
+function openSidebar(){document.getElementById('sidebar').classList.add('active');document.getElementById('sidebar-overlay').classList.add('active');document.body.style.overflow='hidden'}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('active');document.getElementById('sidebar-overlay').classList.remove('active');document.body.style.overflow=''}
+function showPage(id){closeSidebar();document.getElementById('main-content').classList.add('hidden');document.querySelectorAll('.page-content').forEach(p=>p.classList.add('hidden'));const t=document.getElementById(id);if(t){t.classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}return false}
+function showHome(){document.querySelectorAll('.page-content').forEach(p=>p.classList.add('hidden'));document.getElementById('main-content').classList.remove('hidden');window.scrollTo({top:0,behavior:'smooth'})}
+
+/* ===== GRUPOS ===== */
+const groupData={
+  bibliotecas:{
+    eyebrow:'Acervo digital',
+    title:'Bibliotecas Digitais',
+    desc:'Plataforma Minha Biblioteca. Escolha o acervo desejado e acesse com o seu login institucional.',
+    items:[
+      {title:'Medicina e Odontologia',sub:'MinhaBibliotecaMED.com',fa:'fa-solid fa-user-doctor',img:'images/mb.webp',link:'https://biblioteca.unifacisa.edu.br/login?redirect=minhabibliotecamed',blank:true,mu:'mb-med',acesso:'institucional'},
+      {title:'Demais Cursos',sub:'MinhaBiblioteca.com',fa:'fa-solid fa-book-open',img:'images/mb.webp',link:'https://biblioteca.unifacisa.edu.br/login?redirect=minhabiblioteca',blank:true,mu:'mb-geral',acesso:'institucional'}
+    ]
+  },
+  treinamentos:{
+    eyebrow:'Plataformas Digitais',
+    title:'Treinamentos, Eventos e Webinars',
+    desc:'Escolha a plataforma desejada e acesse seu treinamento/evento virtual.',
+    items:[
+      {title:'Uptodate',sub:'Eventos e Webinars',fa:'fa-solid fa-stethoscope',img:'images/uptodate.webp',link:'https://www.wolterskluwer.com/en/events?schtab=1&compositeLink=%7B7C0D0929-7DE3-4BFA-B39C-312A189B5C6D%7D&f:waystojoin=Live&f:modeofjoining=Online&f:division=Health',blank:true,mu:'ev-uptodate',acesso:'livre'},
+      {title:'MinhaBiblioteca.com',sub:'Agenda de Eventos',fa:'fa-solid fa-user-doctor',img:'images/mb.webp',link:'https://eventos.minhabiblioteca.com.br/eventos/',blank:true,mu:'ev-mb',acesso:'livre'},
+      {title:'Agende seu treinamento conosco',sub:' ',fa:'fa-solid fa-calendar',link:'https://docs.google.com/forms/d/1u8s3KuPsYJ8Yg2B7agzGX2ab6d5-i-ZtRqRnvxr_Bjw/edit',blank:true,mu:'ev-agende',acesso:'livre'}
+    ]
+  },
+  emails:{
+    eyebrow:'Atendimento',
+    title:'Fale por E-mail',
+    desc:'Escolha o canal mais adequado à sua solicitação.',
+    items:[
+      {title:'biblioteca@unifacisa.edu.br',sub:'07:30 às 21:55 (Segunda a Sexta)',fa:'fa-solid fa-envelope',link:'mailto:biblioteca@unifacisa.edu.br',blank:false,mu:'mail-bib',acesso:'livre'},
+      {title:'tcc@unifacisa.edu.br',sub:'Suporte TCC',fa:'fa-solid fa-graduation-cap',link:'mailto:tcc@unifacisa.edu.br',blank:false,mu:'mail-tcc',acesso:'livre'}
+    ]
+  }
+};
+
+function openGroup(key,ev){
+  if(ev)ev.preventDefault();
+  const d=groupData[key];if(!d)return false;
+  document.getElementById('group-eyebrow').textContent=d.eyebrow;
+  document.getElementById('group-title').textContent=d.title;
+  document.getElementById('group-desc').textContent=d.desc;
+  document.getElementById('group-list').innerHTML=d.items.map(it=>`
+    <a class="modal-link" href="${it.link}" ${it.blank?'target="_blank" rel="noopener noreferrer"':''} ${it.mu?`data-mu="${it.mu}"`:''}>
+      <div class="ml-icon${it.img?' brand has-img':''}">${it.img?`<img src="${it.img}" alt="" onerror="this.parentNode.classList.remove('brand');this.parentNode.classList.add('fallback');this.remove()">`:''}<i class="${it.fa}"></i></div>
+      <div class="ml-text"><span class="ml-title">${it.title}</span><span class="ml-sub">${it.sub}</span>${it.acesso?`<span class="ml-tag a-${it.acesso}"><i class="${ACESSO_ICON[it.acesso]}"></i>${ACESSO_TAG[it.acesso]}</span>`:''}</div>
+      <i class="fa-solid fa-chevron-right ml-arrow"></i></a>`).join('');
+  document.getElementById('group-modal').classList.remove('hidden');
+  document.body.style.overflow='hidden';return false;
+}
+function closeGroup(){document.getElementById('group-modal').classList.add('hidden');document.body.style.overflow=''}
+
+/* ===== BUSCA ===== */
+const norm=s=>(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+const searchInput=document.getElementById('searchInput');
+const clearBtn=document.getElementById('searchClear');
+const mainEl=document.getElementById('main-content');
+const sections=document.querySelectorAll('[data-section]');
+const emptyState=document.getElementById('emptyState');
+function runSearch(){
+  const terms=norm(searchInput.value).split(/\s+/).filter(Boolean);
+  clearBtn.hidden=!searchInput.value;
+  mainEl.classList.toggle('searching',terms.length>0);
+  let has=false;
+  sections.forEach(sec=>{
+    let v=0;
+    sec.querySelectorAll('.app-item').forEach(it=>{
+      const hay=norm((it.dataset.search||'')+' '+(it.querySelector('.app-title')?.textContent||'')+' '+(it.querySelector('.app-subtitle')?.textContent||''));
+      const m=terms.every(t=>{for(const v of variantes(t))if(hay.includes(v))return true;return false});
+      it.style.display=m?'':'none';if(m)v++;
+    });
+    sec.style.display=v?'':'none';if(v)has=true;
+  });
+  emptyState.style.display=(!terms.length||has)?'none':'block';
+}
+searchInput.addEventListener('input',runSearch);
+clearBtn.addEventListener('click',()=>{searchInput.value='';runSearch();searchInput.focus()});
+
+/* ===== ANTESSALA ===== */
+const antessalaData={
+ 'reserva-01':{title:'Reserva de Salas - Biblioteca 01 (FCM)',desc:'O acervo desta biblioteca atende principalmente aos cursos das áreas de SAÚDE, ARQUITETURA e ENGENHARIA, podendo ser utilizada por todos os alunos da instituição. A biblioteca está localizada à direita da escadaria principal.',img:'images/bib1.webp',link:'https://calendly.com/biblioteca-unifacisa/atendimento-biblioteca-fcm-reserva-de-salas-3?'},
+ 'reserva-02':{title:'Reserva de Salas - Biblioteca 02 (UNIFACISA)',desc:'O acervo desta biblioteca atende principalmente aos cursos de DIREITO, ADMINISTRAÇÃO, JOGOS DIGITAIS E TECNOLOGIA EM GERAL, CIÊNCIAS AERONÁUTICAS, além das demais áreas da instituição, podendo ser utilizada por todos os alunos. A biblioteca está localizada à esquerda da escadaria principal, logo após o CRA.',img:'images/bib2.webp',link:'https://calendly.com/biblioteca-unifacisa/atendimento-biblioteca-unifacisa-reserva-de-salas4?'}
+};
+function openAntessala(k,e){
+  if(e)e.preventDefault();const d=antessalaData[k];if(!d)return false;
+  document.getElementById('antessala-title').textContent=d.title;
+  document.getElementById('antessala-desc').textContent=d.desc;
+  document.getElementById('antessala-img').src=d.img;
+  document.getElementById('antessala-btn').href=d.link;
+  document.getElementById('antessala-modal').classList.remove('hidden');
+  document.body.style.overflow='hidden';return false;
+}
+function closeAntessala(){document.getElementById('antessala-modal').classList.add('hidden');document.body.style.overflow=''}
+
+/* ===== TUTORIAL PWA ===== */
+function openTutorialModal(){closeSidebar();document.getElementById('tutorial-modal').classList.remove('hidden');document.body.style.overflow='hidden'}
+function closeTutorialModal(){document.getElementById('tutorial-modal').classList.add('hidden');document.body.style.overflow=''}
+function switchPlatform(p){
+  const ba=document.getElementById('tab-android'),bi=document.getElementById('tab-ios'),
+        sa=document.getElementById('steps-android'),si=document.getElementById('steps-ios');
+  const and=p==='android';
+  ba.classList.toggle('active',and);bi.classList.toggle('active',!and);
+  sa.style.display=and?'flex':'none';si.style.display=and?'none':'flex';
+}
+
+/* ===== PWA BANNER ===== */
+let deferredPrompt;
+function store(op){try{return op==='get'?localStorage.getItem('pwa_banner_dismissed'):localStorage.setItem('pwa_banner_dismissed','true')}catch(e){return null}}
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();deferredPrompt=e;
+  if(!store('get'))setTimeout(()=>document.getElementById('pwa-banner').classList.remove('hidden'),1800);
+});
+function handleInstallClick(){
+  if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(()=>{deferredPrompt=null;dismissPWABanner()})}
+  else{dismissPWABanner();openTutorialModal()}
+}
+function dismissPWABanner(){document.getElementById('pwa-banner').classList.add('hidden');store('set')}
+
+/* ===== FECHAR MODAIS ===== */
+function closeAllModals(){closeGroup();closeAntessala();closeTutorialModal();closeNotif();closeFeedback()}
+document.querySelectorAll('.modal-overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeAllModals()}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeAllModals();closeSidebar()}});
+
+/* ===== CORREÇÃO PARA ABRIR DIRETO NO SAFARI NO IOS (PWA) ===== */
+document.addEventListener('click', function(e) {
+  const link = e.target.closest('a');
+  if (link && link.href) {
+    const target = link.getAttribute('target');
+    const isExternal = link.hostname && link.hostname !== window.location.hostname;
+    
+    // Se for um link externo ou explicitamente target="_blank"
+    if (isExternal || target === '_blank') {
+      // No iOS PWA (modo standalone), forçamos o redirecionamento via window.open
+      if (('standalone' in window.navigator) && window.navigator.standalone) {
+        e.preventDefault();
+        window.open(link.href, '_blank');
+      }
+    }
+  }
+}, false);
+/* ===== TIPO DE ACESSO (selos nos ícones) ===== */
+const ACESSO_LABEL={institucional:'Requer login institucional',livre:'Acesso livre'};
+const ACESSO_TAG={institucional:'Login institucional',livre:'Acesso livre'};
+const ACESSO_ICON={institucional:'fa-solid fa-key',livre:'fa-solid fa-lock-open'};
+document.querySelectorAll('.app-item[data-acesso]').forEach(it=>{
+  const t=it.dataset.acesso;if(!ACESSO_LABEL[t])return;
+  const b=document.createElement('span');
+  b.className='acesso-badge a-'+t;b.title=ACESSO_LABEL[t];
+  b.setAttribute('role','img');b.setAttribute('aria-label',ACESSO_LABEL[t]);
+  b.innerHTML='<i class="'+ACESSO_ICON[t]+'"></i>';
+  it.appendChild(b);
+});
+
+/* ===== MAIS USADOS ===== */
+const MU_KEY='hub_maisusados_v1',MU_MAX=5;
+const MU_PADRAO=['renovar','acervo','reserva-01','uptodate','capes'];
+let muData=lsGet(MU_KEY)||{};
+const muSrc={};
+document.querySelectorAll('.app-item[data-id]').forEach(el=>{if(el.closest('#mostused-section'))return;muSrc[el.dataset.id]=el});
+let muRenderH=null;
+function bumpMU(id){
+  if(!id)return;
+  const d=muData[id]||{n:0,last:0};d.n++;d.last=Date.now();muData[id]=d;lsSet(MU_KEY,muData);
+  if(muRenderH)clearTimeout(muRenderH);muRenderH=setTimeout(renderMU,60);
+}
+function renderMU(){
+  const grid=document.getElementById('mostused-grid');if(!grid)return;
+  let ids=Object.entries(muData).filter(([,v])=>v&&v.n>0).sort((a,b)=>b[1].n-a[1].n||b[1].last-a[1].last).map(e=>e[0]).filter(id=>muSrc[id]);
+  if(!ids.length)ids=MU_PADRAO.filter(id=>muSrc[id]);
+  ids=ids.slice(0,MU_MAX);
+  grid.innerHTML='';
+  ids.forEach((id,i)=>{const el=muSrc[id].cloneNode(true);el.style.animationDelay=(i*40)+'ms';grid.appendChild(el)});
+  document.getElementById('mostused-section').style.display=ids.length?'':'none';
+}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('a.app-item[data-id]');
+  if(a)bumpMU(a.dataset.id);
+  const ml=e.target.closest('#group-list .modal-link[data-mu]');
+  if(ml)bumpMU(ml.dataset.mu);
+});
+renderMU();
+
+/* ===== FAIXA DE AVISOS ===== */
+const AVISO_TYPES={
+  info:{label:'Aviso',icon:'fa-solid fa-circle-info'},
+  alerta:{label:'Atenção',icon:'fa-solid fa-triangle-exclamation'},
+  urgente:{label:'Urgente',icon:'fa-solid fa-circle-exclamation'},
+  feriado:{label:'Feriado',icon:'fa-solid fa-calendar-day'},
+  horario:{label:'Horário especial',icon:'fa-solid fa-clock',cls:'info'},
+  sistema:{label:'Sistema fora do ar',icon:'fa-solid fa-triangle-exclamation',cls:'urgente'},
+  tcc:{label:'Prazo de TCC',icon:'fa-solid fa-graduation-cap',cls:'alerta'}
+};
+const stripEl=document.getElementById('avisos-strip');
+let avisosAtuais=[],avisoIdx=0,avisoTimer=null;
+function lsGet(k){try{return JSON.parse(localStorage.getItem(k)||'null')}catch(e){return null}}
+function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function dataLocal(s){if(!s)return null;const p=s.split('-').map(Number);return new Date(p[0],p[1]-1,p[2])}
+function hoje0(){const t=new Date();return new Date(t.getFullYear(),t.getMonth(),t.getDate())}
+let fechadosAvisos=[];
+function avisoAtivo(a){const hj=hoje0(),ini=dataLocal(a.inicio),fim=dataLocal(a.fim);
+  if(ini&&hj<ini)return false;if(fim&&hj>fim)return false;return true}
+function avisoId(a){return a.id||[a.tipo,a.texto,a.inicio||'',a.fim||''].join('|')}
+function filtrarAvisos(list){
+  const dis=lsGet('hub_avisos_lidos_v1')||{};
+  return (list||[]).filter(a=>{
+    if(a.ativo===false)return false;
+    if(!avisoAtivo(a))return false;
+    const d=dis[avisoId(a)];
+    if(d&&d>Date.now())return false;
+    return true;
+  });
+}
+function parseAvisos(j){
+  const arr=Array.isArray(j)?j:(j&&Array.isArray(j.avisos)?j.avisos:[]);
+  return arr.filter(a=>a&&a.texto).map(a=>({
+    tipo:AVISO_TYPES[a.tipo]?a.tipo:'info',
+    texto:String(a.texto),
+    link:a.link||'',rotulo:a.rotulo||'',
+    inicio:a.inicio||'',fim:a.fim||'',id:a.id||'',fechado:!!a.fechado,ativo:a.ativo!==false
+  }));
+}
+function renderAviso(i){
+  const a=avisosAtuais[i];if(!a)return;
+  const cfg=AVISO_TYPES[a.tipo]||AVISO_TYPES.info;
+  stripEl.className='avisos-strip t-'+(cfg.cls||a.tipo);
+  stripEl.querySelector('.aviso-ic i').className=cfg.icon;
+  const dots=document.getElementById('aviso-dots');
+  dots.hidden=avisosAtuais.length<2;
+  dots.innerHTML=avisosAtuais.map((_,k)=>'<button type="button" class="aviso-dot" aria-label="Aviso '+(k+1)+' de '+avisosAtuais.length+'"'+(k===i?' aria-current="true"':'')+'></button>').join('');
+  [...dots.children].forEach((d,k)=>d.addEventListener('click',()=>{mostrarAviso(k);pausarAvisos(true)}));
+  const txt=document.getElementById('aviso-text');
+  txt.innerHTML='<span class="aviso-tipo-label">'+cfg.label+':</span> '+esc(a.texto)+
+    (a.link?' <a href="'+esc(a.link)+'" target="_blank" rel="noopener noreferrer">'+esc(a.rotulo||'Saiba mais')+' <i class="fa-solid fa-arrow-right"></i></a>':'');
+  txt.classList.remove('aviso-swap');void txt.offsetWidth;txt.classList.add('aviso-swap');
+  avisoIdx=i;
+}
+function mostrarAviso(k){renderAviso((k+avisosAtuais.length)%avisosAtuais.length)}
+function pausarAvisos(p){
+  if(avisoTimer){clearInterval(avisoTimer);avisoTimer=null}
+  if(!p&&avisosAtuais.length>1)avisoTimer=setInterval(()=>mostrarAviso(avisoIdx+1),6500);
+}
+function aplicarAvisos(list){
+  avisosAtuais=filtrarAvisos(list);avisoIdx=0;
+  if(!avisosAtuais.length){stripEl.classList.add('hidden');pausarAvisos(true);return}
+  stripEl.classList.remove('hidden');renderAviso(0);pausarAvisos(false);
+}
+document.getElementById('aviso-close').addEventListener('click',()=>{
+  const atual=avisosAtuais[avisoIdx];
+  if(atual){
+    const dis=lsGet('hub_avisos_lidos_v1')||{};
+    const fim=dataLocal(atual.fim);
+    dis[avisoId(atual)]=fim?Math.min(fim.getTime(),Date.now()+7*864e5):Date.now()+7*864e5;
+    lsSet('hub_avisos_lidos_v1',dis);
+  }
+  avisosAtuais.splice(avisoIdx,1);
+  if(!avisosAtuais.length){stripEl.classList.add('hidden');pausarAvisos(true);return}
+  renderAviso(Math.min(avisoIdx,avisosAtuais.length-1));pausarAvisos(false);
+});
+stripEl.addEventListener('pointerenter',()=>pausarAvisos(true));
+stripEl.addEventListener('pointerleave',()=>pausarAvisos(false));
+let ultimaCargaAvisos=0;
+function usarAvisos(arr){fechadosAvisos=arr.filter(a=>a.fechado&&a.ativo!==false&&avisoAtivo(a));aplicarAvisos(arr);renderHorario()}
+async function carregarAvisos(force){
+  if(!force&&Date.now()-ultimaCargaAvisos<2*60e3)return;
+  ultimaCargaAvisos=Date.now();
+  for(const u of ['/api/avisos','./avisos.json']){   // 1º: backend (editável no painel) · 2º: arquivo estático
+    try{
+      const r=await fetch(u,{cache:'no-store'});
+      if(!r.ok)continue;
+      const arr=parseAvisos(await r.json());
+      lsSet('hub_avisos_cache_v1',{t:Date.now(),avisos:arr});
+      usarAvisos(arr);return;
+    }catch(e){/* tenta a próxima fonte */}
+  }
+  const c=lsGet('hub_avisos_cache_v1');
+  if(c&&Array.isArray(c.avisos))usarAvisos(c.avisos);else renderHorario();
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)carregarAvisos(false)});
+carregarAvisos(true);
+
+
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  clearTimeout(t._h);t._h=setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+/* ===== FAQ SANFONA ===== */
+function faqToggleAll(open){document.querySelectorAll('#faqs-page details.faq-item').forEach(d=>{d.open=open})}
+
+/* ===== BUSCA COM SINÔNIMOS ===== */
+const SINONIMOS={
+  tcc:['trabalho de conclusao','monografia','tese','dissertacao','conclusao de curso'],
+  tese:['tcc','monografia','trabalho de conclusao'],
+  monografia:['tcc','trabalho de conclusao'],
+  ebook:['e-book','livro digital'],
+  'e-book':['ebook','livro digital'],
+  'livro digital':['ebook','e-book'],
+  livro:['obras','material'],
+  email:['e-mail','mail','correio eletronico','fale'],
+  'e-mail':['email','mail'],
+  correio:['email','e-mail'],
+  fone:['telefone','contato'],ligacao:['telefone','ligar'],
+  computador:['notebook'],
+  chave:['armario','armarios','guarda-volume'],chaves:['armario','armarios','guarda-volume'],
+  renovar:['renovacao'],renovacao:['renovar'],
+  emprestimo:['emprestimos','retirada'],
+  devolucao:['devolver'],
+  multa:['multas','atraso'],multas:['multa','atraso'],atraso:['multa','multas'],
+  sala:['salas','reserva','espaco','grupo'],salas:['sala','reserva'],
+  reserva:['reservar','salas','agendamento'],reservar:['reserva','agendamento'],
+  agendamento:['reserva','calendly'],
+  horario:['funcionamento','abertura','atendimento'],
+  telefone:['tel','fone','ligar','contato'],contato:['telefone','email','fale'],
+  normas:['abnt','nbr','normalizacao','padronizacao'],abnt:['normas','nbr'],nbr:['normas','abnt'],
+  periodicos:['revistas','artigos'],periodico:['periodicos'],
+  revista:['periodicos','revistas','tribunais'],revistas:['revista','periodicos'],
+  artigo:['artigos','periodicos','paper','cientifico'],artigos:['artigo','periodicos'],
+  paper:['artigo','artigos'],
+  acervo:['catalogo','colecao','consulta','buscar'],
+  catalogo:['acervo','pergamum','consulta'],pergamum:['catalogo','acervo','renovar'],
+  ficha:['catalografica','avaliativa'],catalografica:['ficha','isbn','doi'],
+  isbn:['doi','issn','catalografica'],issn:['isbn','doi'],doi:['isbn','issn'],
+  declaracao:['entrega','deposito'],entrega:['deposito','declaracao','tcc'],deposito:['entrega','declaracao'],
+  regulamento:['regras','normas'],regras:['regulamento'],
+  doacao:['doar','doacao de material'],doar:['doacao'],
+  roteiro:['modelo','template','estrutura'],modelo:['roteiro','template'],
+  medicina:['fcm','saude'],saude:['bvs','medicina','fcm'],
+  direito:['juridico','tribunais','rt'],jurisprudencia:['direito','rt'],
+  'up to date':['uptodate'],uptodate:['up to date'],
+  portal:['site','plataforma'],site:['portal','plataforma'],
+  comut:['comutacao','ibict'],comutacao:['comut','ibict'],
+  capes:['periodicos','portal de periodicos'],
+  scielo:['artigos','acesso aberto'],
+  bvs:['biblioteca virtual em saude','lilacs','medline'],
+  gedweb:['target','normas'],target:['gedweb'],
+  armario:['armarios','guarda-volume','chave'],armarios:['armario','chave'],
+  'guarda-volume':['armario','guarda volume','chave'],
+  notebook:['computador','emprestimo'],
+  cadastro:['recadastro','registro','rdm'],
+  treinamento:['treinamentos','capacitacao','evento','webinar'],
+  evento:['eventos','treinamento','webinar'],
+  manual:['servicos','guia'],
+  suporte:['ajuda','contato','duvida'],
+  tutorial:['tutoriais','como usar','ajuda'],tutoriais:['tutorial'],
+  'minha biblioteca':['minhabiblioteca','mb'],
+  'biblioteca digital':['bibliotecas digitais','minha biblioteca']
+};
+function variantes(t){
+  const out=new Set([t]);
+  const sing=t.replace(/s$/,'');
+  [t,sing].forEach(base=>{(SINONIMOS[base]||[]).forEach(s=>out.add(s))});
+  out.add(sing);
+  return out;
+}
+
+
+/* ===== HORÁRIO DE FUNCIONAMENTO ===== */
+const HORARIOS={1:[450,1320],2:[450,1320],3:[450,1320],4:[450,1320],5:[450,1320],6:[480,810]}; // minutos: Seg-Sex 07:30-22:00 · Sáb 08:00-13:30
+const DIAS=['dom.','seg.','ter.','qua.','qui.','sex.','sáb.'];
+function agoraFortaleza(){
+  const p=Object.fromEntries(new Intl.DateTimeFormat('en-CA',{timeZone:'America/Fortaleza',hourCycle:'h23',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  return{iso:p.year+'-'+p.month+'-'+p.day,date:new Date(Date.UTC(+p.year,+p.month-1,+p.day)),min:+p.hour*60+ +p.minute};
+}
+const hm=m=>String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+const fechadoEm=iso=>fechadosAvisos.some(a=>(!a.inicio||iso>=a.inicio)&&(!a.fim||iso<=a.fim));
+function proximaAbertura(n){
+  for(let i=0;i<8;i++){
+    const d=new Date(n.date.getTime()+i*864e5),h=HORARIOS[d.getUTCDay()];
+    if(!h||fechadoEm(d.toISOString().slice(0,10)))continue;
+    if(i===0&&n.min>=h[0])continue;
+    return{i,wd:d.getUTCDay(),t:h[0]};
+  }
+  return null;
+}
+function renderHorario(){
+  const n=agoraFortaleza(),h=HORARIOS[n.date.getUTCDay()],fech=fechadoEm(n.iso);
+  const aberto=!fech&&!!h&&n.min>=h[0]&&n.min<h[1];
+  let txt;
+  if(aberto)txt='Aberto agora · até '+hm(h[1]);
+  else{const p=proximaAbertura(n);txt=(fech?'Fechado hoje':'Fechado agora')+(p?' · abre '+(p.i===0?'hoje':p.i===1?'amanhã':DIAS[p.wd])+' às '+hm(p.t):'')}
+  document.getElementById('hoursText').textContent=txt;
+  document.getElementById('hoursStatus').classList.toggle('open',aberto);
+}
+document.getElementById('hoursInfoBtn').addEventListener('click',e=>{
+  const pop=document.getElementById('hoursPop'),open=pop.hidden;
+  pop.hidden=!open;e.currentTarget.setAttribute('aria-expanded',String(open));
+});
+renderHorario();setInterval(renderHorario,60e3);
+
+/* ===== CARROSSEL INFINITO + LIGHTBOX ===== */
+(function(){
+  const track=document.getElementById('carTrack'),dotsEl=document.getElementById('carDots');
+  if(!track)return;
+  const base=[...track.children],n=base.length,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const photos=base.map(f=>f.querySelector('img').getAttribute('src'));
+  for(let r=0;r<2;r++)base.forEach(f=>{const c=f.cloneNode(true);c.setAttribute('aria-hidden','true');c.querySelector('button').tabIndex=-1;track.appendChild(c)});
+  const slides=[...track.children];
+  let raw=n,paused=false,visible=false,settle;
+  base.forEach((_,i)=>{const b=document.createElement('button');b.type='button';b.className='car-dot';b.setAttribute('aria-label','Foto '+(i+1)+' de '+n);b.onclick=()=>{go(raw-(raw%n)+i);hold(8000)};dotsEl.appendChild(b)});
+  const dots=[...dotsEl.children];
+  const pos=i=>slides[i].offsetLeft-(track.clientWidth-slides[i].clientWidth)/2;
+  const jump=i=>{track.style.scrollSnapType='none';track.scrollLeft=pos(i);void track.offsetWidth;track.style.scrollSnapType=''};
+  function paint(){const a=raw%n;slides.forEach((s,k)=>s.classList.toggle('active',k%n===a));dots.forEach((d,k)=>d.setAttribute('aria-current',k===a?'true':'false'))}
+  function go(i){raw=i;paint();if(reduce)jump(i);else track.scrollTo({left:pos(i),behavior:'smooth'})}
+  const hold=ms=>{paused=true;clearTimeout(hold.t);hold.t=setTimeout(()=>paused=false,ms)};
+  track.addEventListener('scroll',()=>{
+    const c=track.scrollLeft+track.clientWidth/2;let best=raw,bd=Infinity;
+    slides.forEach((s,k)=>{const d=Math.abs(s.offsetLeft+s.clientWidth/2-c);if(d<bd){bd=d;best=k}});
+    if(best!==raw){raw=best;paint()}
+    clearTimeout(settle);
+    settle=setTimeout(()=>{if(raw<n||raw>=2*n){raw=n+raw%n;jump(raw);paint()}},140);   // volta ao conjunto do meio => loop infinito
+  },{passive:true});
+  document.querySelector('.car-arrow.prev').onclick=()=>{go(raw-1);hold(8000)};
+  document.querySelector('.car-arrow.next').onclick=()=>{go(raw+1);hold(8000)};
+  ['pointerdown','mouseenter','focusin','touchstart'].forEach(e=>track.addEventListener(e,()=>{paused=true},{passive:true}));
+  ['pointerup','pointercancel','mouseleave','focusout','touchend'].forEach(e=>track.addEventListener(e,()=>hold(4000)));
+  const init=()=>{raw=n+raw%n;jump(raw);paint()};
+  new IntersectionObserver(en=>{const v=en[0].isIntersecting;if(v&&!visible)init();visible=v}).observe(track);
+  let rz;addEventListener('resize',()=>{clearTimeout(rz);rz=setTimeout(()=>jump(raw),150)});
+  addEventListener('load',init);init();
+  /* lightbox */
+  const lb=document.getElementById('lightbox'),img=document.getElementById('lbImg');let li=0,tx=0;
+  const show=i=>{li=(i+n)%n;img.src=photos[li];document.getElementById('lbCount').textContent=(li+1)+' / '+n};
+  const open=i=>{show(i);lb.classList.remove('hidden');document.body.style.overflow='hidden';lb.querySelector('.lb-close').focus()};
+  const close=()=>{lb.classList.add('hidden');document.body.style.overflow='';img.removeAttribute('src')};
+  if(!reduce)setInterval(()=>{if(!paused&&visible&&!document.hidden&&lb.classList.contains('hidden'))go(raw+1)},4200);
+  track.addEventListener('click',e=>{const b=e.target.closest('.car-open');if(b)open(slides.indexOf(b.parentNode)%n)});
+  lb.querySelector('.lb-close').onclick=close;
+  lb.querySelector('.lb-prev').onclick=()=>show(li-1);
+  lb.querySelector('.lb-next').onclick=()=>show(li+1);
+  lb.addEventListener('click',e=>{if(e.target===lb)close()});
+  lb.addEventListener('touchstart',e=>{tx=e.changedTouches[0].clientX},{passive:true});
+  lb.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>50)show(li+(d<0?1:-1))});
+  document.addEventListener('keydown',e=>{if(lb.classList.contains('hidden'))return;if(e.key==='Escape')close();if(e.key==='ArrowLeft')show(li-1);if(e.key==='ArrowRight')show(li+1)});
+})();
+
+/* ===== NOTIFICAÇÕES PUSH ===== */
+const pushOk=()=>'serviceWorker' in navigator&&'PushManager' in window&&'Notification' in window;
+const b64=v=>{const p='='.repeat((4-v.length%4)%4),r=atob((v+p).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(r,c=>c.charCodeAt(0))};
+const notifModal=document.getElementById('notif-modal');
+const setNotifStatus=t=>{document.getElementById('notif-status').textContent=t};
+async function currentSub(){if(!pushOk())return null;const reg=await navigator.serviceWorker.ready;return reg.pushManager.getSubscription()}
+async function openNotif(){
+  closeSidebar();
+  const sub=await currentSub().catch(()=>null),saved=lsGet('hub_notif_topics')||['feriado','horario','sistema','tcc','geral'];
+  document.querySelectorAll('#notif-opts input').forEach(i=>{i.checked=saved.includes(i.value)});
+  document.getElementById('notif-save').textContent=sub?'Salvar preferências':'Ativar notificações';
+  document.getElementById('notif-off').hidden=!sub;
+  setNotifStatus(!pushOk()?'Este navegador não oferece notificações. No iPhone, instale o app na tela inicial (menu “Como Instalar o App”) e abra por lá.':(window.Notification&&Notification.permission==='denied')?'As notificações estão bloqueadas nas configurações do navegador. Libere-as para este site e tente de novo.':'');
+  notifModal.classList.remove('hidden');document.body.style.overflow='hidden';
+}
+function closeNotif(){notifModal.classList.add('hidden');document.body.style.overflow=''}
+async function saveNotif(){
+  if(!pushOk())return;
+  const topics=[...document.querySelectorAll('#notif-opts input:checked')].map(i=>i.value);
+  if(!topics.length){setNotifStatus('Escolha ao menos um tipo de aviso.');return}
+  const btn=document.getElementById('notif-save');btn.disabled=true;
+  try{
+    if(await Notification.requestPermission()!=='granted')throw new Error('Permissão não concedida.');
+    const reg=await navigator.serviceWorker.ready;let sub=await reg.pushManager.getSubscription();
+    if(!sub){
+      const k=await (await fetch('/api/subscribe')).json();
+      if(!k.publicKey)throw new Error('Notificações ainda não estão disponíveis no servidor.');
+      sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64(k.publicKey)});
+    }
+    const r=await fetch('/api/subscribe',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({subscription:sub.toJSON(),topics})});
+    if(!r.ok)throw new Error('Falha ao salvar a inscrição.');
+    lsSet('hub_notif_topics',topics);closeNotif();toast('Notificações ativadas.');
+  }catch(e){setNotifStatus(e.message||'Não foi possível ativar agora.')}finally{btn.disabled=false}
+}
+async function offNotif(){
+  try{const sub=await currentSub();if(sub){await fetch('/api/subscribe',{method:'DELETE',headers:{'content-type':'application/json'},body:JSON.stringify({endpoint:sub.endpoint})});await sub.unsubscribe()}closeNotif();toast('Notificações desativadas.')}
+  catch(e){setNotifStatus('Não foi possível desativar agora.')}
+}
+
+/* ===== FEEDBACK ===== */
+const fbModal=document.getElementById('feedback-modal');
+function openFeedback(){closeSidebar();fbModal.classList.remove('hidden');document.body.style.overflow='hidden'}
+function closeFeedback(){fbModal.classList.add('hidden');document.body.style.overflow=''}
+async function sendFeedback(ev){
+  const f=ev.target,b=f.querySelector('button[type=submit]');b.disabled=true;
+  try{
+    const r=await fetch('/api/events',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({type:'feedback',kind:f.kind.value,message:f.message.value,contact:f.contact.value,website:f.website.value})});
+    if(!r.ok)throw 0;f.reset();closeFeedback();toast('Obrigado! Sua mensagem foi enviada.');
+  }catch(e){toast('Não foi possível enviar agora. Tente novamente.')}finally{b.disabled=false}
+}
+
+/* ===== MEDIÇÃO ANÔNIMA (cliques e buscas sem resultado) ===== */
+function beacon(o){try{navigator.sendBeacon('/api/events',new Blob([JSON.stringify(o)],{type:'application/json'}))}catch(e){}}
+document.addEventListener('click',e=>{
+  const it=e.target.closest('.app-item');if(!it)return;
+  const t=it.querySelector('.app-title')?.textContent.trim(),sub=it.querySelector('.app-subtitle')?.textContent.trim();
+  if(t)beacon({type:'hit',id:t+(sub?' · '+sub:'')});
+});
+(function(){let t;searchInput.addEventListener('input',()=>{clearTimeout(t);t=setTimeout(()=>{const q=searchInput.value.trim();if(q.length>=3&&emptyState.style.display!=='none')beacon({type:'miss',q})},1500)})})();
+
+/* ===== EXTRAS ===== */
+const HASH_PAGES={faq:'faqs-page',sobre:'sobre-page',servicos:'servicos-page'};   // links diretos: /#faq  /#sobre  /#servicos
+if(HASH_PAGES[location.hash.slice(1)])showPage(HASH_PAGES[location.hash.slice(1)]);
+addEventListener('offline',()=>toast('Você está offline. Mostrando a versão salva.'));
+addEventListener('online',()=>{toast('Conexão restabelecida.');carregarAvisos(true)});
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body>
+</html>

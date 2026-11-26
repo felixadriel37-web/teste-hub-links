@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Acesso Colaboradores · Biblioteca UNIFACISA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--blue:#0037FF;--blue-50:#EEF2FF;--blue-100:#D9E2FF;--ink:#080A12;--ink2:#3A4056;--muted:#68708A;--line:#E3E8F5;--green:#35E100;--red:#C62828}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Sora',system-ui,sans-serif}
+body{background:#F6F8FE;color:var(--ink);min-height:100dvh;padding:env(safe-area-inset-top) 0 40px}
+[hidden]{display:none!important}
+.wrap{max-width:760px;margin:0 auto;padding:16px}
+.top{background:var(--blue);color:#fff;border-radius:22px;padding:20px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.top p{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;opacity:.8}
+.top h1{font-size:1.35rem;font-weight:800;letter-spacing:-.03em;margin-top:4px}
+.card{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:16px;margin-top:14px}
+label{display:block;font-size:.6rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:10px 0 5px}
+input,select,textarea{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;font-size:16px;color:var(--ink);background:#fff;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 4px var(--blue-50)}
+textarea{min-height:70px;resize:vertical}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--blue);flex-shrink:0}
+.chk{display:flex;gap:9px;align-items:flex-start;font-size:.78rem;letter-spacing:0;text-transform:none;color:var(--ink2);font-weight:500;margin:10px 0 0}
+.row{display:flex;gap:10px}.row>*{flex:1;min-width:0}
+.btn{border:1.5px solid var(--line);background:#fff;color:var(--ink2);border-radius:999px;padding:11px 16px;font-weight:700;font-size:.78rem;cursor:pointer}
+.btn.p{background:var(--blue);border-color:var(--blue);color:#fff}.btn.g{background:var(--green);border-color:var(--green);color:var(--ink)}.btn.d{color:var(--red)}
+.btn:disabled{opacity:.5}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tabs{display:flex;gap:6px;overflow-x:auto;margin-top:14px;padding-bottom:2px}
+.tab{border:0;background:#fff;border:1.5px solid var(--line);border-radius:999px;padding:9px 16px;font-weight:700;font-size:.76rem;color:var(--ink2);white-space:nowrap;cursor:pointer}
+.tab[aria-selected=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.muted{color:var(--muted);font-size:.74rem;line-height:1.5}
+.msg{margin-top:12px;padding:11px 13px;border-radius:12px;font-size:.78rem;font-weight:600}
+.msg.ok{background:#E9FBF0;color:#1D7A44}.msg.err{background:#FDECEC;color:var(--red)}
+.item h3{font-size:.8rem;display:flex;justify-content:space-between;gap:8px;align-items:center}
+.pill{font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;background:var(--blue-50);color:var(--blue);padding:4px 9px;border-radius:99px;font-weight:700}
+.rank{display:flex;align-items:center;gap:10px;font-size:.76rem;padding:6px 0;border-bottom:1px solid var(--line)}
+.rank i{display:block;height:8px;border-radius:9px;background:var(--blue);min-width:3px}
+.rank span{flex:1;min-width:0}.rank b{width:34px;text-align:right}
+#login{max-width:420px;margin:12dvh auto 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- LOGIN -->
+  <section id="login" class="card">
+    <h1 style="font-size:1.3rem;letter-spacing:-.03em">Acesso Colaboradores</h1>
+    <p class="muted" style="margin-top:6px">Área restrita à equipe da Biblioteca. Informe a senha para continuar.</p>
+    <label for="pw">Senha</label>
+    <input id="pw" type="password" autocomplete="current-password" placeholder="••••••••">
+    <div id="loginMsg" class="msg err" hidden></div>
+    <div class="bar"><button class="btn p" id="enter" style="flex:1">Entrar</button></div>
+  </section>
+
+  <!-- PAINEL -->
+  <section id="app" hidden>
+    <div class="top"><div><p>Biblioteca UNIFACISA</p><h1>Acesso Colaboradores</h1></div><button class="btn" id="logout">Sair</button></div>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" data-t="avisos" aria-selected="true">Avisos</button>
+      <button class="tab" role="tab" data-t="notif" aria-selected="false">Notificações</button>
+      <button class="tab" role="tab" data-t="stats" aria-selected="false">Uso do hub</button>
+      <button class="tab" role="tab" data-t="msgs" aria-selected="false">Mensagens</button>
+    </div>
+
+    <div id="t-avisos">
+      <div class="card"><p class="muted">Os avisos aparecem na faixa do topo do hub assim que você clicar em <b>Publicar</b> (até 1 minuto). Não é preciso subir o projeto de novo.</p>
+        <div class="bar">
+          <button class="btn" data-preset="feriado">+ Feriado</button><button class="btn" data-preset="horario">+ Horário especial</button>
+          <button class="btn" data-preset="sistema">+ Sistema fora do ar</button><button class="btn" data-preset="tcc">+ Prazo de TCC</button>
+          <button class="btn" data-preset="info">+ Aviso livre</button>
+        </div></div>
+      <div id="lista"></div>
+      <div class="bar"><button class="btn g" id="publish" style="flex:1">Publicar avisos</button></div>
+      <div id="avMsg" class="msg" hidden></div>
+    </div>
+
+    <div id="t-notif" hidden>
+      <div class="card">
+        <p class="muted">Envia uma notificação para os celulares de quem ativou os avisos no app. <b id="subs">…</b></p>
+        <label for="nTopic">Categoria</label>
+        <select id="nTopic"><option value="todos">Todos os inscritos</option><option value="feriado">Feriados</option><option value="horario">Horário especial</option><option value="sistema">Sistema fora do ar</option><option value="tcc">Prazo de TCC</option><option value="geral">Outros comunicados</option></select>
+        <label for="nTitle">Título (até 80)</label><input id="nTitle" maxlength="80">
+        <label for="nBody">Mensagem (até 240)</label><textarea id="nBody" maxlength="240"></textarea>
+        <label for="nUrl">Ao tocar, abrir</label><input id="nUrl" value="./index.html">
+        <div class="bar"><button class="btn p" id="send" style="flex:1">Enviar notificação</button></div>
+        <div id="nMsg" class="msg" hidden></div>
+      </div>
+    </div>
+
+    <div id="t-stats" hidden>
+      <div class="card"><label for="days" style="margin-top:0">Período</label>
+        <select id="days"><option value="7">Últimos 7 dias</option><option value="30" selected>Últimos 30 dias</option><option value="60">Últimos 60 dias</option></select>
+        <h3 style="margin-top:16px;font-size:.85rem">Serviços mais acessados</h3><div id="rank"></div>
+        <h3 style="margin-top:18px;font-size:.85rem">Buscas sem resultado</h3><p class="muted">O que os alunos procuram e ainda não existe no hub.</p><div id="miss"></div>
+      </div>
+    </div>
+
+    <div id="t-msgs" hidden><div id="fb"></div></div>
+  </section>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+let TOKEN=sessionStorage.getItem('colab')||'';
+const TIPOS={info:'Aviso (azul)',alerta:'Atenção (amarelo)',urgente:'Urgente (vermelho)',feriado:'Feriado (verde)',horario:'Horário especial',sistema:'Sistema fora do ar',tcc:'Prazo de TCC'};
+const TOPIC={feriado:'feriado',horario:'horario',sistema:'sistema',tcc:'tcc'};
+const PRESETS={
+  feriado:{tipo:'feriado',texto:'Feriado: a biblioteca não funcionará no dia __/__. Retornamos no dia seguinte, no horário normal.',fechado:true},
+  horario:{tipo:'horario',texto:'Horário especial: nos dias __/__ a __/__, atenderemos das __h às __h.'},
+  sistema:{tipo:'sistema',texto:'O sistema __ está temporariamente fora do ar. Já estamos trabalhando para normalizar.'},
+  tcc:{tipo:'tcc',texto:'Prazo para depósito do TCC: __/__/____. Envie pelo MEU APP UNIFACISA.'},
+  info:{tipo:'info',texto:''}
+};
+let avisos=[];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function flash(el,txt,ok=true){el.textContent=txt;el.className='msg '+(ok?'ok':'err');el.hidden=false;clearTimeout(el._t);el._t=setTimeout(()=>el.hidden=true,6000)}
+async function api(path,opt={}){
+  const r=await fetch(path,{...opt,headers:{'content-type':'application/json',authorization:'Bearer '+TOKEN,...(opt.headers||{})}});
+  const d=await r.json().catch(()=>({}));
+  if(r.status===401){sair();throw new Error('Senha incorreta')}
+  if(!r.ok)throw new Error(d.error||('Erro '+r.status));
+  return d;
+}
+async function entrar(){
+  TOKEN=$('#pw').value;
+  try{const d=await api('/api/avisos?all=1');sessionStorage.setItem('colab',TOKEN);avisos=d.avisos||[];$('#login').hidden=true;$('#app').hidden=false;render()}
+  catch(e){TOKEN='';flash($('#loginMsg'),e.message==='Senha incorreta'?'Senha incorreta.':'Não foi possível conectar ao servidor. '+e.message,false)}
+}
+function sair(){sessionStorage.removeItem('colab');TOKEN='';$('#app').hidden=true;$('#login').hidden=false;$('#pw').value=''}
+$('#enter').onclick=entrar;$('#pw').onkeydown=e=>{if(e.key==='Enter')entrar()};$('#logout').onclick=sair;
+if(TOKEN){$('#pw').value=TOKEN;entrar()}
+
+/* abas */
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>tab(b.dataset.t));
+function tab(t){document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));['avisos','notif','stats','msgs'].forEach(k=>$('#t-'+k).hidden=k!==t);if(t==='notif')loadSubs();if(t==='stats'||t==='msgs')loadEvents()}
+
+/* avisos */
+function render(){
+  $('#lista').innerHTML=avisos.length?avisos.map((a,i)=>`
+  <div class="card item" data-i="${i}">
+    <h3><span class="pill">${esc(TIPOS[a.tipo]||'Aviso')}</span><button class="btn d" data-act="del" style="padding:7px 12px">Remover</button></h3>
+    <div class="row"><div><label>Tipo</label><select data-k="tipo">${Object.entries(TIPOS).map(([k,v])=>`<option value="${k}" ${k===a.tipo?'selected':''}>${v}</option>`).join('')}</select></div>
+    <div><label>Exibir de</label><input type="date" data-k="inicio" value="${esc(a.inicio)}"></div><div><label>Exibir até</label><input type="date" data-k="fim" value="${esc(a.fim)}"></div></div>
+    <label>Texto (até 240)</label><textarea maxlength="240" data-k="texto">${esc(a.texto)}</textarea>
+    <div class="row"><div><label>Link (opcional)</label><input type="url" data-k="link" placeholder="https://..." value="${esc(a.link)}"></div><div><label>Rótulo do link</label><input data-k="rotulo" placeholder="Saiba mais" value="${esc(a.rotulo)}"></div></div>
+    <label class="chk"><input type="checkbox" data-k="ativo" ${a.ativo!==false?'checked':''}> Aviso ativo (desmarque para pausar sem apagar)</label>
+    <label class="chk"><input type="checkbox" data-k="fechado" ${a.fechado?'checked':''}> Biblioteca fechada neste período (o selo do topo passa a mostrar “Fechado”)</label>
+    <div class="bar"><button class="btn" data-act="notify">🔔 Notificar usuários</button></div>
+  </div>`).join(''):'<div class="card muted">Nenhum aviso. Use os botões acima para criar.</div>';
+}
+$('#lista').addEventListener('input',e=>{const c=e.target.closest('[data-i]');if(!c||!e.target.dataset.k)return;avisos[+c.dataset.i][e.target.dataset.k]=e.target.type==='checkbox'?e.target.checked:e.target.value});
+$('#lista').addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]');if(!b)return;const i=+b.closest('[data-i]').dataset.i;
+  if(b.dataset.act==='del'){if(confirm('Remover este aviso?')){avisos.splice(i,1);render()}}
+  if(b.dataset.act==='notify'){const a=avisos[i];$('#nTopic').value=TOPIC[a.tipo]||'geral';$('#nTitle').value=(TIPOS[a.tipo]||'Aviso').replace(/ \(.*\)/,'');$('#nBody').value=a.texto;tab('notif')}
+});
+document.querySelectorAll('[data-preset]').forEach(b=>b.onclick=()=>{avisos.unshift({id:'',ativo:true,fechado:false,inicio:'',fim:'',link:'',rotulo:'',...PRESETS[b.dataset.preset]});render();window.scrollTo({top:$('#lista').offsetTop-20,behavior:'smooth'})});
+$('#publish').onclick=async()=>{
+  const btn=$('#publish');btn.disabled=true;
+  try{const d=await api('/api/avisos',{method:'PUT',body:JSON.stringify({avisos})});avisos=d.avisos;render();flash($('#avMsg'),'Publicado! Aparece no hub em até 1 minuto.')}
+  catch(e){flash($('#avMsg'),e.message,false)}finally{btn.disabled=false}
+};
+
+/* notificações */
+async function loadSubs(){try{const d=await api('/api/push');$('#subs').textContent=d.count+' celular(es) inscrito(s).'}catch(e){$('#subs').textContent=''}}
+$('#send').onclick=async()=>{
+  const title=$('#nTitle').value.trim();if(!title)return flash($('#nMsg'),'Informe um título.',false);
+  if(!confirm('Enviar esta notificação agora?'))return;
+  const btn=$('#send');btn.disabled=true;
+  try{const d=await api('/api/push',{method:'POST',body:JSON.stringify({title,body:$('#nBody').value,url:$('#nUrl').value,topic:$('#nTopic').value})});
+    flash($('#nMsg'),`Enviada para ${d.sent} celular(es)`+(d.removed?` · ${d.removed} inscrição(ões) antigas removidas`:'')+(d.failed?` · ${d.failed} falha(s)`:''))}
+  catch(e){flash($('#nMsg'),e.message,false)}finally{btn.disabled=false}
+};
+
+/* estatísticas e mensagens */
+let EV=null;
+async function loadEvents(){try{EV=await api('/api/events');renderEvents()}catch(e){}}
+$('#days').onchange=renderEvents;
+function renderEvents(){
+  if(!EV)return;
+  const lim=new Date(Date.now()-$('#days').value*864e5).toISOString().slice(0,10),tot={};
+  for(const[d,m]of Object.entries(EV.stats||{}))if(d>=lim)for(const[k,v]of Object.entries(m))tot[k]=(tot[k]||0)+v;
+  const top=Object.entries(tot).sort((a,b)=>b[1]-a[1]).slice(0,15),mx=top[0]?top[0][1]:1;
+  $('#rank').innerHTML=top.length?top.map(([k,v])=>`<div class="rank"><span>${esc(k)}</span><i style="width:${Math.max(4,v/mx*90)}px"></i><b>${v}</b></div>`).join(''):'<p class="muted">Sem dados ainda.</p>';
+  const miss=Object.entries(EV.misses||{}).sort((a,b)=>b[1]-a[1]).slice(0,15);
+  $('#miss').innerHTML=miss.length?miss.map(([k,v])=>`<div class="rank"><span>${esc(k)}</span><b>${v}</b></div>`).join(''):'<p class="muted">Nenhuma busca sem resultado.</p>';
+  $('#fb').innerHTML=(EV.feedback||[]).length?EV.feedback.map(f=>`<div class="card item"><h3><span class="pill">${esc(f.kind)}</span><button class="btn d" data-del="${esc(f.id)}" style="padding:7px 12px">Apagar</button></h3><p style="margin-top:8px;font-size:.84rem;line-height:1.5;white-space:pre-line">${esc(f.message)}</p><p class="muted" style="margin-top:6px">${new Date(f.at).toLocaleString('pt-BR')}${f.contact?' · '+esc(f.contact):''}</p></div>`).join(''):'<div class="card muted">Nenhuma mensagem recebida.</div>';
+}
+$('#fb').onclick=async e=>{const b=e.target.closest('[data-del]');if(!b||!confirm('Apagar mensagem?'))return;try{await api('/api/events?id='+encodeURIComponent(b.dataset.del),{method:'DELETE'});loadEvents()}catch(e){}};
+</script>
+</body>
+</html>
